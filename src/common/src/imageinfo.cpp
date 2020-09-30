@@ -127,55 +127,27 @@ char* get_image_buffer(bitmap* image)
   /*   return buffer; */
 }
 
-/*
-
-void update_image_buffer(Gdiplus::Bitmap* image, byte* buffer)
+void update_image_buffer(bitmap* image, char* buffer)
 {
+  UNIMPLEMENTED();
 
-  // update the bitmap image
-  uint32_t height = image->GetHeight();
-  uint32_t width = image->GetWidth();
+  /*   // update the bitmap image */
+  /*   uint32_t height = image->GetHeight(); */
+  /*   uint32_t width = image->GetWidth(); */
 
-  for (int i = 0; i < image->GetWidth(); i++) {
-    for (int j = 0; j < image->GetHeight(); j++) {
-      Gdiplus::Color color;
-      Gdiplus::ARGB value = 0;
+  /*   for (int i = 0; i < image->GetWidth(); i++) { */
+  /*     for (int j = 0; j < image->GetHeight(); j++) { */
+  /*       Gdiplus::Color color; */
+  /*       Gdiplus::ARGB value = 0; */
 
-      value |= ((uint32_t)255) << 24; // create opaque images
-      value |= (((uint32_t)buffer[(0 * height + j) * width + i]) << 16);
-      value |= (((uint32_t)buffer[(1 * height + j) * width + i]) << 8);
-      value |= (((uint32_t)buffer[(2 * height + j) * width + i]));
+  /*       value |= ((uint32_t)255) << 24; // create opaque images */
+  /*       value |= (((uint32_t)buffer[(0 * height + j) * width + i]) << 16); */
+  /*       value |= (((uint32_t)buffer[(1 * height + j) * width + i]) << 8); */
+  /*       value |= (((uint32_t)buffer[(2 * height + j) * width + i])); */
 
-      color.SetValue(value);
+  /*       color.SetValue(value); */
 
-      image->SetPixel(i, j, color);
-    }
-  }
+  /*       image->SetPixel(i, j, color); */
+  /*     } */
+  /*   } */
 }
-
-int GetEncoderClsid(const WCHAR* format, CLSID* pClsid);
-int GetEncoderClsid(const WCHAR* format, CLSID* pClsid)
-{
-  using namespace Gdiplus;
-  UINT num = 0; // number of image encoders
-  UINT size = 0; // size of the image encoder array in bytes
-  ImageCodecInfo* pImageCodecInfo = NULL;
-  GetImageEncodersSize(&num, &size);
-  if (size == 0)
-    return -1; // Failure
-  pImageCodecInfo = (ImageCodecInfo*)(malloc(size));
-  if (pImageCodecInfo == NULL)
-    return -1; // Failure
-  GetImageEncoders(num, size, pImageCodecInfo);
-  for (UINT j = 0; j < num; ++j) {
-    if (wcscmp(pImageCodecInfo[j].MimeType, format) == 0) {
-      *pClsid = pImageCodecInfo[j].Clsid;
-      free(pImageCodecInfo);
-      return j; // Success
-    }
-  }
-  free(pImageCodecInfo);
-  return 0;
-}
-
-*/

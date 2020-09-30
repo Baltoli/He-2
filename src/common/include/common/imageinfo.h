@@ -32,7 +32,7 @@ bitmap* open_image(const char* filename);
 bitmap* create_image(uint32_t width, uint32_t height);
 
 char* get_image_buffer(bitmap* image);
-/* void update_image_buffer(Gdiplus::Bitmap* image, byte* buffer); */
+void update_image_buffer(bitmap* image, char* buffer);
 image_t* populate_imageinfo(bitmap* image);
 
 #endif
