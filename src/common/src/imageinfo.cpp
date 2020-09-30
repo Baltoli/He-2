@@ -80,79 +80,75 @@ bitmap* create_image(uint32_t width, uint32_t height)
   return nullptr;
 }
 
+image_t* populate_imageinfo(bitmap* image)
+{
+
+  image_t* imageinfo = new image_t;
+
+  imageinfo->width = image->width;
+  imageinfo->height = image->height;
+  imageinfo->image_array = get_image_buffer(image);
+
+  printf("height - %d, width - %d\n", imageinfo->height, imageinfo->width);
+
+  return imageinfo;
+}
+
+char* get_image_buffer(bitmap* image)
+{
+  return nullptr;
+  /*   Gdiplus::Status ok; */
+
+  /*   byte* buffer = new byte[image->GetHeight() * image->GetWidth() * 3]; */
+
+  /*   uint32_t height = image->GetHeight(); */
+  /*   uint32_t width = image->GetWidth(); */
+  /*   DEBUG_PRINT(("height : %d, width : %d\n", height, width), 3); */
+
+  /*   for (int i = 0; i < image->GetWidth(); i++) { */
+  /*     for (int j = 0; j < image->GetHeight(); j++) { */
+  /*       Gdiplus::Color color; */
+  /*       ok = image->GetPixel(i, j, &color); */
+
+  /*       if (ok != 0) { */
+  /*         std::cout << "error" << std::endl; */
+  /*         exit(-1); */
+  /*       } else { */
+
+  /*         buffer[(0 * height + j) * width + i] = color.GetR(); */
+  /*         buffer[(1 * height + j) * width + i] = color.GetG(); */
+  /*         buffer[(2 * height + j) * width + i] = color.GetB(); */
+  /*       } */
+  /*     } */
+  /*   } */
+
+  /*   return buffer; */
+}
+
 /*
 
-image_t * populate_imageinfo(Gdiplus::Bitmap * image){
+void update_image_buffer(Gdiplus::Bitmap* image, byte* buffer)
+{
 
-        image_t * imageinfo = new image_t;
+  // update the bitmap image
+  uint32_t height = image->GetHeight();
+  uint32_t width = image->GetWidth();
 
-        imageinfo->width = image->GetWidth();
-        imageinfo->height = image->GetHeight();
-        imageinfo->image_array = get_image_buffer(image);
+  for (int i = 0; i < image->GetWidth(); i++) {
+    for (int j = 0; j < image->GetHeight(); j++) {
+      Gdiplus::Color color;
+      Gdiplus::ARGB value = 0;
 
-        printf("height - %d, width - %d\n", imageinfo->height,
-imageinfo->width);
+      value |= ((uint32_t)255) << 24; // create opaque images
+      value |= (((uint32_t)buffer[(0 * height + j) * width + i]) << 16);
+      value |= (((uint32_t)buffer[(1 * height + j) * width + i]) << 8);
+      value |= (((uint32_t)buffer[(2 * height + j) * width + i]));
 
-        return imageinfo;
+      color.SetValue(value);
 
-}
-
-byte * get_image_buffer(Gdiplus::Bitmap * image){
-
-        Gdiplus::Status ok;
-
-        byte * buffer = new byte[image->GetHeight() * image->GetWidth() * 3];
-
-        uint32_t height = image->GetHeight();
-        uint32_t width = image->GetWidth();
-        DEBUG_PRINT(("height : %d, width : %d\n", height, width), 3);
-
-
-        for (int i = 0; i < image->GetWidth(); i++){
-                for (int j = 0; j < image->GetHeight(); j++){
-                        Gdiplus::Color color;
-                        ok = image->GetPixel(i, j, &color);
-
-                        if (ok != 0){
-                                std::cout << "error" << std::endl;
-                                exit(-1);
-                        }
-                        else{
-
-                                buffer[(0 * height + j)*width + i] =
-color.GetR(); buffer[(1 * height + j)*width + i] = color.GetG(); buffer[(2 *
-height + j)*width + i] = color.GetB();
-
-                        }
-
-                }
-        }
-
-        return buffer;
-
-}
-
-void update_image_buffer(Gdiplus::Bitmap * image, byte * buffer){
-
-        // update the bitmap image
-uint32_t height = image->GetHeight();
-uint32_t width = image->GetWidth();
-
-for (int i = 0; i < image->GetWidth(); i++) {
-  for (int j = 0; j < image->GetHeight(); j++) {
-    Gdiplus::Color color;
-    Gdiplus::ARGB value = 0;
-
-    value |= ((uint32_t)255) << 24; // create opaque images
-    value |= (((uint32_t)buffer[(0 * height + j) * width + i]) << 16);
-    value |= (((uint32_t)buffer[(1 * height + j) * width + i]) << 8);
-    value |= (((uint32_t)buffer[(2 * height + j) * width + i]));
-
-    color.SetValue(value);
-
-    image->SetPixel(i, j, color);
+      image->SetPixel(i, j, color);
+    }
   }
-}
 }
 
 int GetEncoderClsid(const WCHAR* format, CLSID* pClsid);
