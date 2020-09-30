@@ -42,7 +42,7 @@ Vagrant.configure("2") do |config|
     apt-get install -y \
       build-essential \
       cmake \
-      ninja \
+      ninja-build \
       wget
   SHELL
 
