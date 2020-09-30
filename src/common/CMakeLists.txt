@@ -4,3 +4,6 @@ add_library(common
 
 target_include_directories(common
   PUBLIC include)
+
+target_link_libraries(common
+  stb)
