@@ -1,19 +1,6 @@
 // main application - read a instrace in a file and then build an expression
 // tree you need to choose where to start and end the trace and other criteria
 // in this file's implementation.
-
-#include <algorithm>
-#include <assert.h>
-#include <fstream>
-#include <iostream>
-#include <sstream>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <vector>
-
 #include <common/output.h>
 
 #include <utility/defines.h>
@@ -36,6 +23,18 @@
 #include <common/imageinfo.h>
 #include <common/meminfo.h>
 #include <common/utilities.h>
+
+#include <algorithm>
+#include <assert.h>
+#include <fstream>
+#include <iostream>
+#include <sstream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <vector>
 
 using namespace std;
 
