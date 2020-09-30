@@ -11,5 +11,6 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_C_STANDARD 11)
 
 add_subdirectory(common)
+add_subdirectory(postprocess)
 add_subdirectory(preprocess)
 add_subdirectory(stb)
