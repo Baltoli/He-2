@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <fstream>
 #include <vector>
 
@@ -48,7 +49,7 @@ get_memtrace(vector<ifstream*>& memtrace, moduleinfo_t* head)
       }
       print_progress(&count, 100000);
     }
-    DEBUG_PRINT(("files %d/%d is read\n", i + 1, memtrace.size()), 5);
+    DEBUG_PRINT(("files %d/%lu is read\n", i + 1, memtrace.size()), 5);
   }
   return mem_trace;
 }
@@ -95,7 +96,7 @@ get_mem_info_from_memtrace(vector<ifstream*>& memtrace, moduleinfo_t* head)
       print_progress(&count, 100000);
     }
 
-    DEBUG_PRINT(("files %d/%d is read\n", i + 1, memtrace.size()), 5);
+    DEBUG_PRINT(("files %d/%lu is read\n", i + 1, memtrace.size()), 5);
   }
 
   DEBUG_PRINT(("defragmenting and updating strides....\n"), 5);
@@ -149,7 +150,7 @@ get_mem_regions_from_memtrace(vector<ifstream*>& memtrace, moduleinfo_t* head)
       print_progress(&count, 100000);
     }
 
-    DEBUG_PRINT(("files %d/%d is read\n", i + 1, memtrace.size()), 5);
+    DEBUG_PRINT(("files %d/%lu is read\n", i + 1, memtrace.size()), 5);
   }
 
   DEBUG_PRINT(("defragmenting and updating strides....\n"), 5);

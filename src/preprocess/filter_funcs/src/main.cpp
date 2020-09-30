@@ -30,7 +30,7 @@ void print_usage()
          "info) \n");
   printf("\t mode - mode of filtering \n");
   printf("\t total_size - size of the buffer\n");
-  printf("\t threshold - continuous chunck % of image\n");
+  printf("\t threshold - continuous chunck %% of image\n");
 }
 
 int main(int argc, char** argv)
@@ -70,7 +70,7 @@ int main(int argc, char** argv)
     } else if (args[i]->name.compare("-total_size") == 0) {
       total_size = atoi(args[i]->value.c_str());
     } else {
-      printf("unrecognized argument - %s\n", args[i]->name);
+      printf("unrecognized argument - %s\n", args[i]->name.c_str());
       exit(0);
     }
   }
@@ -168,7 +168,7 @@ int main(int argc, char** argv)
 
   */
 
-  ULONG_PTR token = initialize_image_subsystem();
+  auto token = initialize_image_subsystem();
 
   if (mode == DIFF_MODE) {
 
@@ -178,10 +178,8 @@ int main(int argc, char** argv)
     DEBUG_PRINT(("modules populated with profile information\n"), 1);
 
     /* get the image information */
-    Gdiplus::Bitmap* in_image_bitmap
-        = open_image(in_image_filenames[0].c_str());
-    Gdiplus::Bitmap* out_image_bitmap
-        = open_image(out_image_filenames[0].c_str());
+    bitmap* in_image_bitmap = open_image(in_image_filenames[0].c_str());
+    bitmap* out_image_bitmap = open_image(out_image_filenames[0].c_str());
     image_t* in_image = populate_imageinfo(in_image_bitmap);
     image_t* out_image = populate_imageinfo(out_image_bitmap);
 

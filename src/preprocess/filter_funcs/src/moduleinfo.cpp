@@ -3,6 +3,7 @@
 
 #include <common/utilities.h>
 
+#include <algorithm>
 #include <assert.h>
 #include <fstream>
 #include <map>
@@ -10,6 +11,7 @@
 #include <sstream>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <vector>
 
 using namespace std;
@@ -264,7 +266,10 @@ bbinfo_t* find_bb(
     }
   }
 
-  *from_module = false;
+  // FIXME: unclear what this is meant to do - charitably, does MSVC allow for
+  // false to be coerced to nullptr?
+  *from_module = nullptr;
+
   /* if not try to find from all the modules */
   while (head != NULL) {
     for (int i = 0; i < head->funcs.size(); i++) {
