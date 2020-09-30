@@ -11,6 +11,7 @@ void shutdown_image_subsystem(uintptr_t token) { }
 
 void save_image(bitmap* image, const char* file)
 {
+  UNIMPLEMENTED();
   /*
           CLSID clsId;
 
@@ -59,8 +60,9 @@ void save_image(bitmap* image, const char* file)
 
 bitmap* open_image(const char* filename)
 {
-
   DEBUG_PRINT(("opening image - %s\n", filename), 3);
+
+  UNIMPLEMENTED();
 
   /* wchar_t * file_wchar = new wchar_t[strlen(filename) + 1]; */
 
@@ -69,15 +71,14 @@ bitmap* open_image(const char* filename)
   /* Gdiplus::Bitmap *image = Gdiplus::Bitmap::FromFile(file_wchar); */
 
   /* return image; */
-  return nullptr;
 }
 
 bitmap* create_image(uint32_t width, uint32_t height)
 {
+  UNIMPLEMENTED();
 
   /* Gdiplus::Bitmap * image = new Gdiplus::Bitmap(width, height); */
   /* return image; */
-  return nullptr;
 }
 
 image_t* populate_imageinfo(bitmap* image)
@@ -96,7 +97,8 @@ image_t* populate_imageinfo(bitmap* image)
 
 char* get_image_buffer(bitmap* image)
 {
-  return nullptr;
+  UNIMPLEMENTED();
+
   /*   Gdiplus::Status ok; */
 
   /*   byte* buffer = new byte[image->GetHeight() * image->GetWidth() * 3]; */
