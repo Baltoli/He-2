@@ -52,7 +52,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.provision "shell", privileged: false, inline: <<-SHELL
     wget --quiet -N -P #{WGET_CACHE} #{DR_URL}
-    mkdir $HOME/dynamorio
+    mkdir -p $HOME/dynamorio
     tar xf #{WGET_CACHE}/#{DR_TAR} -C $HOME/dynamorio --strip-components 1
 
     touch $HOME/env.sh
@@ -61,7 +61,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.provision "shell", privileged: false, inline: <<-SHELL
     wget --quiet -N -P #{WGET_CACHE} #{HALIDE_URL}
-    mkdir $HOME/halide
+    mkdir -p $HOME/halide
     tar xf #{WGET_CACHE}/#{HALIDE_TAR} -C $HOME/halide --strip-components 1
 
     touch $HOME/env.sh
