@@ -1,7 +1,9 @@
 add_subdirectory(analysis)
+add_subdirectory(halide)
+add_subdirectory(main)
 add_subdirectory(memory)
-add_subdirectory(utility)
 add_subdirectory(trees)
+add_subdirectory(utility)
 
 #include_directories("include")
 #include_directories("../../common/include")

@@ -10,5 +10,6 @@ target_include_directories(analysis
   PUBLIC include)
 
 target_link_libraries(analysis
-  utility
-  common)
+  common
+  memory
+  utility)
