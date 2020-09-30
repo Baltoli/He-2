@@ -1,4 +1,5 @@
 add_subdirectory(analysis)
+add_subdirectory(memory)
 add_subdirectory(utility)
 add_subdirectory(trees)
 
