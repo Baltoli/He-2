@@ -1,3 +1,5 @@
+add_subdirectory(utility)
+
 #include_directories("include")
 #include_directories("../../common/include")
 #include_directories("C:/Python278/include")
