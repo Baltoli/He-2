@@ -181,3 +181,5 @@ tags
 [._]*.un~
 
 # End of https://www.toptal.com/developers/gitignore/api/vagrant,vim,macos,linux,cmake,c++,c,git
+
+build/
