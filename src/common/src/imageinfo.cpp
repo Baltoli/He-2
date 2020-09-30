@@ -9,74 +9,78 @@ uintptr_t initialize_image_subsystem() { return 0; }
 
 void shutdown_image_subsystem(uintptr_t token) { }
 
+void save_image(bitmap* image, const char* file)
+{
+  /*
+          CLSID clsId;
+
+          wchar_t * file_wchar = new wchar_t[strlen(file) + 1];;
+          mbstowcs(file_wchar, file, strlen(file) + 1);
+
+          string filename(file);
+
+          string extension = "";
+          int index = -1;
+          for (int i = filename.size() - 1; i >= 0; i--){
+                  if (filename[i] == '.'){
+                          index = i + 1;
+                          break;
+                  }
+          }
+
+          if (index != -1){
+
+                  for (int i = index; i<filename.size(); i++){
+                          extension += filename[i];
+                  }
+
+          }
+
+          // image/bmp
+          // image/jpeg
+          // image/gif
+          // image/tiff
+          // image/png
+
+          if ((extension.compare("jpg") == 0)){
+                  GetEncoderClsid(L"image/jpeg", &clsId);
+          }
+          else if ((extension.compare("png") == 0)){
+                  GetEncoderClsid(L"image/png", &clsId);
+          }
+          else{
+                  cout << "error: unknown image type" << endl;
+                  return;
+          }
+
+          image->Save(file_wchar, &clsId);
+          */
+}
+
+bitmap* open_image(const char* filename)
+{
+
+  DEBUG_PRINT(("opening image - %s\n", filename), 3);
+
+  /* wchar_t * file_wchar = new wchar_t[strlen(filename) + 1]; */
+
+  /* mbstowcs(file_wchar, filename, strlen(filename) + 1); */
+
+  /* Gdiplus::Bitmap *image = Gdiplus::Bitmap::FromFile(file_wchar); */
+
+  /* return image; */
+  return nullptr;
+}
+
+bitmap* create_image(uint32_t width, uint32_t height)
+{
+
+  /* Gdiplus::Bitmap * image = new Gdiplus::Bitmap(width, height); */
+  /* return image; */
+  return nullptr;
+}
+
 /*
-void save_image(Gdiplus::Bitmap * image, const char * file){
-
-        CLSID clsId;
-
-        wchar_t * file_wchar = new wchar_t[strlen(file) + 1];;
-        mbstowcs(file_wchar, file, strlen(file) + 1);
-
-        string filename(file);
-
-        string extension = "";
-        int index = -1;
-        for (int i = filename.size() - 1; i >= 0; i--){
-                if (filename[i] == '.'){
-                        index = i + 1;
-                        break;
-                }
-        }
-
-        if (index != -1){
-
-                for (int i = index; i<filename.size(); i++){
-                        extension += filename[i];
-                }
-
-        }
-
-        // image/bmp
-        // image/jpeg
-        // image/gif
-        // image/tiff
-        // image/png
-
-        if ((extension.compare("jpg") == 0)){
-                GetEncoderClsid(L"image/jpeg", &clsId);
-        }
-        else if ((extension.compare("png") == 0)){
-                GetEncoderClsid(L"image/png", &clsId);
-        }
-        else{
-                cout << "error: unknown image type" << endl;
-                return;
-        }
-
-        image->Save(file_wchar, &clsId);
-
-}
-
-Gdiplus::Bitmap * open_image(const char * filename){
-
-        DEBUG_PRINT(("opening image - %s\n", filename), 3);
-
-        wchar_t * file_wchar = new wchar_t[strlen(filename) + 1];
-
-        mbstowcs(file_wchar, filename, strlen(filename) + 1);
-
-        Gdiplus::Bitmap *image = Gdiplus::Bitmap::FromFile(file_wchar);
-
-        return image;
-
-}
-
-Gdiplus::Bitmap * create_image(uint32_t width, uint32_t height){
-
-        Gdiplus::Bitmap * image = new Gdiplus::Bitmap(width, height);
-        return image;
-
-}
 
 image_t * populate_imageinfo(Gdiplus::Bitmap * image){
 
