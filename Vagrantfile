@@ -5,9 +5,25 @@
 # configures the configuration version (we support older styles for
 # backwards compatibility). Please don't change it unless you know what
 # you're doing.
+
+DR_VERSION = "8.0.18523"
+DR_RELEASES_URL = "https://github.com/DynamoRIO/dynamorio/releases/download"
+DR_TAR = "DynamoRIO-Linux-#{DR_VERSION}.tar.gz"
+DR_URL = "#{DR_RELEASES_URL}/cronbuild-#{DR_VERSION}/#{DR_TAR}"
+
+WGET_CACHE = "/var/cache/wget"
+
 Vagrant.configure("2") do |config|
   config.vm.box = "generic/ubuntu2004"
   config.vm.synced_folder ".", "/vagrant"
+
+  if Vagrant.has_plugin?("vagrant-cachier")
+    config.cache.scope = :box
+    config.cache.enable :apt
+    config.cache.enable :generic, {
+      "wget" => { cache_dir: "/var/cache/wget" },
+    }
+  end
 
   config.vm.provider "virtualbox" do |vb|
     vb.memory = 4096
@@ -18,12 +34,19 @@ Vagrant.configure("2") do |config|
     apt-get update
     apt-get install -y \
       build-essential \
-      cmake \
-      doxygen \
-      g++ \
-      g++-multilib \
-      git \
-      ninja-build \
-      zlib1g-dev
+      wget
+  SHELL
+
+  config.vm.provision "shell", privileged: false, inline: <<-SHELL
+    echo 'source $HOME/env.sh' >> $HOME/.profile
+  SHELL
+
+  config.vm.provision "shell", privileged: false, inline: <<-SHELL
+    wget --quiet -N -P #{WGET_CACHE} #{DR_URL}
+    mkdir $HOME/dynamorio
+    tar xf #{WGET_CACHE}/#{DR_TAR} -C $HOME/dynamorio --strip-components 1
+
+    touch $HOME/env.sh
+    echo 'export DR_ROOT=$HOME/dynamorio' >> $HOME/env.sh
   SHELL
 end
