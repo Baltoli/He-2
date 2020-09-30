@@ -1,4 +1,5 @@
 add_library(common
+  src/imageinfo.cpp
   src/meminfo.cpp
   src/utilities.cpp)
 
