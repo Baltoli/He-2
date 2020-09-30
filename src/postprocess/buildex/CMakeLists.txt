@@ -1,4 +1,6 @@
+add_subdirectory(analysis)
 add_subdirectory(utility)
+add_subdirectory(trees)
 
 #include_directories("include")
 #include_directories("../../common/include")
