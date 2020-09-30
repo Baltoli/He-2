@@ -11,6 +11,13 @@ DR_RELEASES_URL = "https://github.com/DynamoRIO/dynamorio/releases/download"
 DR_TAR = "DynamoRIO-Linux-#{DR_VERSION}.tar.gz"
 DR_URL = "#{DR_RELEASES_URL}/cronbuild-#{DR_VERSION}/#{DR_TAR}"
 
+HALIDE_VERSION = "10.0.0"
+HALIDE_RELEASES_URL = "https://github.com/halide/Halide/releases/download"
+HALIDE_PLATFORM = "x86-64-linux"
+HALIDE_HASH = "db901f7f7084025abc3cbb9d17b0f2d3f1745900"
+HALIDE_TAR = "Halide-#{HALIDE_VERSION}-#{HALIDE_PLATFORM}-#{HALIDE_HASH}.tar.gz"
+HALIDE_URL = "#{HALIDE_RELEASES_URL}/v#{HALIDE_VERSION}/#{HALIDE_TAR}"
+
 WGET_CACHE = "/var/cache/wget"
 
 Vagrant.configure("2") do |config|
@@ -48,5 +55,14 @@ Vagrant.configure("2") do |config|
 
     touch $HOME/env.sh
     echo 'export DR_ROOT=$HOME/dynamorio' >> $HOME/env.sh
+  SHELL
+
+  config.vm.provision "shell", privileged: false, inline: <<-SHELL
+    wget --quiet -N -P #{WGET_CACHE} #{HALIDE_URL}
+    mkdir $HOME/halide
+    tar xf #{WGET_CACHE}/#{HALIDE_TAR} -C $HOME/halide --strip-components 1
+
+    touch $HOME/env.sh
+    echo 'export HALIDE_ROOT=$HOME/halide' >> $HOME/env.sh
   SHELL
 end
