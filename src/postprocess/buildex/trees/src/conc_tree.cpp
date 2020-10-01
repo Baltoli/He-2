@@ -236,7 +236,7 @@ void Conc_Tree::split_partial_overlaps(
         operand_t* second = new operand_t;
         *first
             = {split_node->symbol->type,
-               opnd->value + opnd->width - start,
+               static_cast<uint>(opnd->value + opnd->width - start),
                {start}}; /* changed width to opnd->width */
         *second
             = {split_node->symbol->type,
@@ -248,8 +248,8 @@ void Conc_Tree::split_partial_overlaps(
         nodes.push_back(make_pair(split_node, splits));
 
         DEBUG_PRINT(
-            ("partial - %s %s\n", opnd_to_string(first),
-             opnd_to_string(second)),
+            ("partial - %s %s\n", opnd_to_string(first).c_str(),
+             opnd_to_string(second).c_str()),
             5);
       }
 
@@ -261,7 +261,10 @@ void Conc_Tree::split_partial_overlaps(
       {
         operand_t* first = new operand_t;
         operand_t* second = new operand_t;
-        *first = {split_node->symbol->type, opnd->value - start, {start}};
+        *first
+            = {split_node->symbol->type,
+               static_cast<uint>(opnd->value - start),
+               {start}};
         *second
             = {split_node->symbol->type, width - first->width, {opnd->value}};
 
@@ -270,8 +273,8 @@ void Conc_Tree::split_partial_overlaps(
         nodes.push_back(make_pair(split_node, splits));
 
         DEBUG_PRINT(
-            ("partial - %s %s\n", opnd_to_string(first),
-             opnd_to_string(second)),
+            ("partial - %s %s\n", opnd_to_string(first).c_str(),
+             opnd_to_string(second).c_str()),
             5);
       }
 
@@ -284,7 +287,10 @@ void Conc_Tree::split_partial_overlaps(
         operand_t* first = new operand_t;
         operand_t* second = new operand_t;
 
-        *first = {split_node->symbol->type, opnd->value - start, {start}};
+        *first
+            = {split_node->symbol->type,
+               static_cast<uint>(opnd->value - start),
+               {start}};
         *second
             = {split_node->symbol->type,
                width - first->width - opnd->width,
@@ -296,8 +302,8 @@ void Conc_Tree::split_partial_overlaps(
         nodes.push_back(make_pair(split_node, splits));
 
         DEBUG_PRINT(
-            ("partial - %s %s %s\n", opnd_to_string(first),
-             opnd_to_string(opnd), opnd_to_string(second)),
+            ("partial - %s %s %s\n", opnd_to_string(first).c_str(),
+             opnd_to_string(opnd).c_str(), opnd_to_string(second).c_str()),
             5);
       }
     }

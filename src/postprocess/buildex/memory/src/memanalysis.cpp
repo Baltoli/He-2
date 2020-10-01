@@ -240,10 +240,10 @@ vector<mem_regions_t*> merge_instrace_and_dump_regions(
   }
 
   DEBUG_PRINT(
-      (" no of image mem regions after merging - %d\n", final_regions.size()),
+      (" no of image mem regions after merging - %lu\n", final_regions.size()),
       2);
   DEBUG_PRINT(
-      (" total number of mem regions (from instrace) - %d\n",
+      (" total number of mem regions (from instrace) - %lu\n",
        total_regions.size()),
       2);
 

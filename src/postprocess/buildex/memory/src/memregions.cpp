@@ -81,7 +81,7 @@ vector<uint64_t> get_nbd_of_random_points_2(
   mem_regions_t* random_mem_region = get_random_output_region(image_regions);
   cout << hex << random_mem_region->start << endl;
   uint64_t mem_location = get_random_mem_location(random_mem_region, seed);
-  DEBUG_PRINT(("random mem location we got - %llx\n", mem_location), 1);
+  DEBUG_PRINT(("random mem location we got - %lx\n", mem_location), 1);
   *stride = random_mem_region->bytes_per_pixel;
 
   vector<uint64_t> nbd_locations;
@@ -385,7 +385,7 @@ void remove_possible_stack_frames(
 {
 
   DEBUG_PRINT(("removing stack frames and out of scope mem infos...\n"), 2);
-  DEBUG_PRINT(("mem info size - %d\n", mem.size()), 2);
+  DEBUG_PRINT(("mem info size - %lu\n", mem.size()), 2);
 
   for (int i = 0; i < mem.size(); i++) {
 
@@ -450,7 +450,7 @@ void remove_possible_stack_frames(
     }
   }
 
-  DEBUG_PRINT(("mem info size after - %d\n", mem.size()), 2);
+  DEBUG_PRINT(("mem info size after - %lu\n", mem.size()), 2);
 }
 
 void mark_possible_buffers(

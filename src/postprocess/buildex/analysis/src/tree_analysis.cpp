@@ -1042,7 +1042,7 @@ std::vector<std::vector<Conc_Tree*>> cluster_trees(
     uint64_t location = get_mem_location(indexes[i], offset, mem, &success);
     ASSERT_MSG(success, ("ERROR: getting mem location error\n"));
 
-    DEBUG_PRINT(("building tree for location %llx\n", location, i), 3);
+    DEBUG_PRINT(("building tree for location %lx/%d\n", location, i), 3);
     for (int j = 0; j < mem->dimensions; j++) {
       DEBUG_PRINT(("%d,", indexes[i][j]), 3);
     }

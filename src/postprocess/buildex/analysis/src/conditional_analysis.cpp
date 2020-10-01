@@ -158,7 +158,8 @@ void update_merge_points(vec_cinstr& instrs, vector<Jump_Info*>& jumps)
   for (int i = 0; i < jumps.size(); i++) {
     if (jumps[i]->merge_pc == 0) {
       DEBUG_PRINT(
-          ("jump at %d cannot find merge point; removing from analysis\n"), 2);
+          ("jump at %d cannot find merge point; removing from analysis\n", i),
+          2);
       jumps.erase(jumps.begin() + i--);
     }
   }
@@ -236,7 +237,8 @@ vector<Jump_Info*> find_dependant_conditionals(
                          << jump_cinstr->target_pc << " " << disasm << endl;
                   }
                   // ASSERT_MSG((jump_cinstr->target_pc == instrs[i +
-                  // 1].first->pc), ("ERROR: inconsistency target %d\n", i + 1));
+                  // 1].first->pc), ("ERROR: inconsistency target %d\n", i +
+                  // 1));
                 }
               } else {
                 if (jump_cinstr->fall_pc == 0) {

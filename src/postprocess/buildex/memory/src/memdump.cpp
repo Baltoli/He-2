@@ -436,7 +436,7 @@ vector<mem_regions_t*> get_image_regions_from_dump(
     uint64_t base_pc = strtoull(parts[index - 2].c_str(), NULL, 16);
 
     DEBUG_PRINT(
-        ("analyzing - base_pc %llx, size %x, write %d\n", base_pc, size, write),
+        ("analyzing - base_pc %lx, size %x, write %d\n", base_pc, size, write),
         2);
 
     uint64_t start = 0;
@@ -490,7 +490,7 @@ vector<mem_regions_t*> get_image_regions_from_dump(
         mem->start += base_pc;
         mem->end += base_pc;
         DEBUG_PRINT(
-            ("region found(%u) - start %llx end %llx padding %u\n", write,
+            ("region found(%u) - start %lx end %lx padding %u\n", write,
              mem->start, mem->end, mem->padding[0]),
             2);
         regions.push_back(mem);
@@ -515,7 +515,7 @@ vector<mem_regions_t*> get_image_regions_from_dump(
     }
   }
 
-  DEBUG_PRINT(("no of mem regions found - %d\n", regions.size()), 2);
+  DEBUG_PRINT(("no of mem regions found - %lu\n", regions.size()), 2);
   DEBUG_PRINT(("get_image_regions_from_dump - done\n"), 2);
 
   return regions;

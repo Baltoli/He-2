@@ -575,7 +575,7 @@ rinstr_t* cinstr_to_rinstrs(
         rinstr[0] = {op_assign, cinstr->dsts[0], 1, {zero}, false};
       } else {
         rinstr[0]
-            = {operation,
+            = {static_cast<int>(operation),
                cinstr->dsts[0],
                2,
                {cinstr->srcs[1], cinstr->srcs[0]},
@@ -609,7 +609,7 @@ rinstr_t* cinstr_to_rinstrs(
         break;
       }
       rinstr[0]
-          = {operation,
+          = {static_cast<int>(operation),
              cinstr->dsts[0],
              2,
              {cinstr->srcs[1], cinstr->srcs[0]},
@@ -993,7 +993,7 @@ rinstr_t* cinstr_to_rinstrs(
         break;
       }
       rinstr[0]
-          = {operation,
+          = {static_cast<int>(operation),
              cinstr->dsts[0],
              2,
              {cinstr->srcs[1], cinstr->srcs[0]},
@@ -1221,7 +1221,7 @@ void reg_to_mem_range(operand_t* opnd)
       break;
 
     default:
-      ASSERT_MSG(false, ("ERROR: %d register not translated", value));
+      ASSERT_MSG(false, ("ERROR: %llu register not translated", value));
     }
 
 #if DEBUG_LEVEL >= 3
@@ -1234,8 +1234,8 @@ void reg_to_mem_range(operand_t* opnd)
     if (opnd->value < MAX_SIZE_OF_REG * 57) {
       DEBUG_PRINT(("WARNING: memory and register space overlap\n"), 2);
       DEBUG_PRINT(
-          ("mem value - %d, min allowed - %d\n", opnd->value,
-           (uint32_t)(MAX_SIZE_OF_REG * 57)),
+          ("mem value - %llu, min allowed - %u\n", opnd->value,
+           static_cast<uint32_t>(MAX_SIZE_OF_REG * 57)),
           2);
     }
     // ASSERT_MSG((opnd->value > MAX_SIZE_OF_REG * 57), ("ERROR: memory and
