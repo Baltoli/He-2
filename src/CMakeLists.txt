@@ -19,6 +19,7 @@ set(CMAKE_C_STANDARD 11)
 # endif()
 
 add_subdirectory(common)
+add_subdirectory(dr_clients)
 add_subdirectory(postprocess)
 add_subdirectory(preprocess)
 add_subdirectory(stb)
