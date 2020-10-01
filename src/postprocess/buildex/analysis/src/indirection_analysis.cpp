@@ -9,6 +9,7 @@
 
 #include <common/common_defines.h>
 
+#include <algorithm>
 #include <vector>
 
 using namespace std;

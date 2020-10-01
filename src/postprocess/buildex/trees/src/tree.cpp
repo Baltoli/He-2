@@ -65,30 +65,32 @@ void* Tree::traverse_tree(
 
 void Tree::canonicalize_tree()
 {
-  uint32_t changed_g = 1;
+  uintptr_t changed_g = 1;
   /* first congregate the tree and then order the nodes */
   while (changed_g) {
-    changed_g = (uint32_t)traverse_tree(
+    changed_g = reinterpret_cast<uintptr_t>(traverse_tree(
         head, this,
         [](Node* node, void* value) -> void* {
           Tree* tree = static_cast<Tree*>(value);
-          uint32_t changed = node->congregate_node(tree->get_head());
-          return (void*)changed;
+          uintptr_t changed = node->congregate_node(tree->get_head());
+          return reinterpret_cast<void*>(changed);
         },
         [](void* node_value, std::vector<void*> traverse_value,
            void* value) -> void* {
-          uint32_t changed = (uint32_t)node_value;
-          if (changed)
-            return (void*)changed;
-
-          for (int i = 0; i < traverse_value.size(); i++) {
-            changed = (uint32_t)traverse_value[i];
-            if (changed)
-              return (void*)changed;
+          uintptr_t changed = reinterpret_cast<uintptr_t>(node_value);
+          if (changed) {
+            return reinterpret_cast<void*>(changed);
           }
 
-          return (void*)changed;
-        });
+          for (int i = 0; i < traverse_value.size(); i++) {
+            changed = reinterpret_cast<uintptr_t>(traverse_value[i]);
+            if (changed) {
+              return reinterpret_cast<void*>(changed);
+            }
+          }
+
+          return reinterpret_cast<void*>(changed);
+        }));
   }
 
   traverse_tree(

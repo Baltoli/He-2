@@ -8,6 +8,7 @@
 #include <common/meminfo.h>
 #include <common/utilities.h>
 
+#include <cmath>
 #include <iostream>
 #include <string>
 
@@ -21,7 +22,7 @@ vector<uint64_t> get_nbd_of_random_points(
   /*ok we need find a set of random locations */
   mem_regions_t* random_mem_region = get_random_output_region(image_regions);
   uint64_t mem_location = get_random_mem_location(random_mem_region, seed);
-  DEBUG_PRINT(("random mem location we got - %llx\n", mem_location), 1);
+  DEBUG_PRINT(("random mem location we got - %lx\n", mem_location), 1);
   *stride = random_mem_region->bytes_per_pixel;
 
   vector<uint64_t> nbd_locations;

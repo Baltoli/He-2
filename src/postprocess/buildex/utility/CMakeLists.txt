@@ -6,4 +6,5 @@ target_include_directories(utility
   PUBLIC include)
 
 target_link_libraries(utility
+  analysis
   common)

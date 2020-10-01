@@ -7,6 +7,7 @@
 
 #include <common/utilities.h>
 
+#include <algorithm>
 #include <assert.h>
 #include <fstream>
 #include <iostream>
