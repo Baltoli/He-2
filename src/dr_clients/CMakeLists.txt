@@ -46,11 +46,11 @@
 #  set(GENERATE_PDBS ON)
 #endif (NOT DEFINED GENERATE_PDBS)
 
-#if (STATIC_LIBRARY)
-#  set(libtype STATIC)
-#else()
-#  set(libtype SHARED)
-#endif ()
+if (STATIC_LIBRARY)
+  set(libtype STATIC)
+else()
+  set(libtype SHARED)
+endif ()
 
 #if (DEBUG)
 #  set(OPT_CFLAGS "-DDEBUG")
@@ -61,10 +61,10 @@
 #    "DynamoRIO installation's cmake directory")
 #endif (NOT DEFINED DynamoRIO_DIR)
 
-#find_package(DynamoRIO ${VERSION_NUMBER_MAJOR}.${VERSION_NUMBER_MINOR})
-#if (NOT DynamoRIO_FOUND)
-#  message(FATAL_ERROR "DynamoRIO package required to build")
-#endif(NOT DynamoRIO_FOUND)
+find_package(DynamoRIO ${VERSION_NUMBER_MAJOR}.${VERSION_NUMBER_MINOR})
+if (NOT DynamoRIO_FOUND)
+  message(FATAL_ERROR "DynamoRIO package required to build")
+endif(NOT DynamoRIO_FOUND)
 
 #if (WIN32)
 #  # disable stack protection: "unresolved external symbol ___security_cookie"
@@ -81,33 +81,38 @@
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OPT_CFLAGS}")
 
 
-#function (add_sample_client name source_file_list extension_list)
-#  add_library(${name} ${libtype} ${source_file_list})
-#  #find_library(dll dll_example ${CMAKE_SOURCE_DIR}/src)
-#  #find_library(halide Halide ${CMAKE_SOURCE_DIR}/src)
-#  #target_link_libraries(${name} ${dll} ${halide})
-#  configure_DynamoRIO_client(${name})
-#  foreach (ext ${extension_list})
-#    use_DynamoRIO_extension(${name} ${ext})
-#  endforeach (ext)
+function (add_sample_client name source_file_list extension_list)
+  add_library(${name} ${libtype} ${source_file_list})
+  #find_library(dll dll_example ${CMAKE_SOURCE_DIR}/src)
+  #find_library(halide Halide ${CMAKE_SOURCE_DIR}/src)
+  #target_link_libraries(${name} ${dll} ${halide})
+  configure_DynamoRIO_client(${name})
+  foreach (ext ${extension_list})
+    use_DynamoRIO_extension(${name} ${ext})
+  endforeach (ext)
 
-#  # Provide a hint for how to use the client
-#  if (NOT DynamoRIO_INTERNAL OR NOT "${CMAKE_GENERATOR}" MATCHES "Ninja")
-#    get_target_property(path ${name} LOCATION${location_suffix})
-#    add_custom_command(TARGET ${name}
-#      POST_BUILD
-#      COMMAND ${CMAKE_COMMAND}
-#      ARGS -E echo "Usage: pass to drconfig or drrun: -c ${path}"
-#      VERBATIM)
-#  endif ()
+  # Provide a hint for how to use the client
+  if (NOT DynamoRIO_INTERNAL OR NOT "${CMAKE_GENERATOR}" MATCHES "Ninja")
+    get_target_property(path ${name} LOCATION${location_suffix})
+    add_custom_command(TARGET ${name}
+      POST_BUILD
+      COMMAND ${CMAKE_COMMAND}
+      ARGS -E echo "Usage: pass to drconfig or drrun: -c ${path}"
+      VERBATIM)
+  endif ()
 
-#  get_property(sample_list GLOBAL PROPERTY DynamoRIO_sample_list) # NON-PUBLIC
-#  set_property(GLOBAL PROPERTY DynamoRIO_sample_list              # NON-PUBLIC
-#    "${sample_list};${name}")                                     # NON-PUBLIC
-#  set(srcs ${srcs} ${source_file_list} PARENT_SCOPE)              # NON-PUBLIC
-#  set(tgts ${tgts} ${name} PARENT_SCOPE)                          # NON-PUBLIC
-#endfunction (add_sample_client)
+  get_property(sample_list GLOBAL PROPERTY DynamoRIO_sample_list) # NON-PUBLIC
+  set_property(GLOBAL PROPERTY DynamoRIO_sample_list              # NON-PUBLIC
+    "${sample_list};${name}")                                     # NON-PUBLIC
+  set(srcs ${srcs} ${source_file_list} PARENT_SCOPE)              # NON-PUBLIC
+  set(tgts ${tgts} ${name} PARENT_SCOPE)                          # NON-PUBLIC
+endfunction (add_sample_client)
 
+get_cmake_property(_variableNames VARIABLES)
+list (SORT _variableNames)
+foreach (_variableName ${_variableNames})
+    message(STATUS "${_variableName}=${${_variableName}}")
+endforeach()
 
 ############################################################################
 
