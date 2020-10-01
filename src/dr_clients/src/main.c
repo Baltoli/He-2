@@ -370,7 +370,8 @@ static void setupInsPasses()
   ins_pass[6].thread_init = funcwrap_thread_init;
   ins_pass[6].thread_exit = funcwrap_thread_exit;
   ins_pass[6].process_exit = funcwrap_exit_event;
-  ins_pass[6].module_load = funcwrap_module_load;
+  ins_pass[6].module_load
+      = (void (*)(void*, module_data_t const*, bool))funcwrap_module_load;
   ins_pass[6].module_unload = NULL;
 
   // ins pass 8 - memdump
