@@ -9,6 +9,7 @@
 #include <common/common_defines.h>
 #include <common/utilities.h>
 
+#include <cmath>
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -411,7 +412,7 @@ Conc_Tree* build_conc_tree(
     tree->print_dot(file, "tree", 0);
     tree->num_nodes = 0;
     DEBUG_PRINT(
-        ("number of conditionals : %d\n", tree->conditionals.size()), 2);
+        ("number of conditionals : %lu\n", tree->conditionals.size()), 2);
 
     Abs_Tree* abs_tree = new Abs_Tree();
     abs_tree->build_abs_tree_unrolled(tree, regions);
@@ -440,7 +441,7 @@ Conc_Tree* build_conc_tree(
       initial_tree->number_tree_nodes();
       initial_tree->print_dot(initial_file, "initial_tree", 0);
       DEBUG_PRINT(
-          ("number of conditionals : %d\n", initial_tree->conditionals.size()),
+          ("number of conditionals : %lu\n", initial_tree->conditionals.size()),
           2);
     }
   }
@@ -857,7 +858,7 @@ std::vector<Conc_Tree*> get_similar_trees(
   /*ok we need find a set of random locations */
   mem_regions_t* random_mem_region = get_random_output_region(image_regions);
   uint64_t mem_location = get_random_mem_location(random_mem_region, seed);
-  DEBUG_PRINT(("random mem location we got - %llx\n", mem_location), 1);
+  DEBUG_PRINT(("random mem location we got - %lx\n", mem_location), 1);
   *stride = random_mem_region->bytes_per_pixel;
 
   vector<uint64_t> nbd_locations;

@@ -260,14 +260,14 @@ int main(int argc, char** argv)
                         + "_" + to_string(thread_id) + ".log";
     instrace_file.open(instrace_filename, ifstream::in);
   } else { /* get the instrace file with the largest size */
-    struct _stat buf;
+    struct stat buf;
     int64_t max_size = -1;
     /* get the instrace files for this exec */
     for (int i = 0; i < files.size(); i++) {
       if (is_prefix(files[i], "instrace_" + exec + "_" + in_image + "_instr")) {
         /*open the file*/
         string file = output_folder + "\\" + files[i];
-        _stat(file.c_str(), &buf);
+        stat(file.c_str(), &buf);
         if (max_size < buf.st_size) {
           max_size = buf.st_size;
           instrace_filename = file;
@@ -282,7 +282,7 @@ int main(int argc, char** argv)
   ASSERT_MSG(instrace_file.good(), ("instrace file cannot be opened\n"));
 
   /* get the disasm file */
-  struct _stat buf;
+  struct stat buf;
   int64_t max_size = -1;
   /* get the instrace files for this exec */
   for (int i = 0; i < files.size(); i++) {
@@ -290,7 +290,7 @@ int main(int argc, char** argv)
             files[i], "instrace_" + exec + "_" + in_image + "_asm_instr")) {
       /*open the file*/
       string file = output_folder + "\\" + files[i];
-      _stat(file.c_str(), &buf);
+      stat(file.c_str(), &buf);
       if (max_size < buf.st_size) {
         max_size = buf.st_size;
         disasm_filename = file;
@@ -366,7 +366,7 @@ int main(int argc, char** argv)
 
   DEBUG_PRINT(("****************start mem info stage******************\n"), 2);
 
-  ULONG_PTR token = initialize_image_subsystem();
+  auto token = initialize_image_subsystem();
 
   /* analyzing mem dumps for input and output image locations if dump is to be
    * analyzed - if false, we will only get memory information from the instrace;
@@ -481,7 +481,7 @@ int main(int argc, char** argv)
     instrs_backward.push_back(instr_string);
   }
   DEBUG_PRINT(
-      ("number of dynamic instructions : %d\n", instrs_backward.size()), 2);
+      ("number of dynamic instructions : %lu\n", instrs_backward.size()), 2);
 
   /*preprocessing*/
   DEBUG_PRINT(("for both forward and backward instr traces\n"), 2);
@@ -582,9 +582,9 @@ int main(int argc, char** argv)
   vector<vector<uint32_t>> app_pc_vec;
   vector<Jump_Info*> cond_app_pc;
 
-  DEBUG_PRINT(("before filter static ins : %d\n", static_info.size()), 2);
+  DEBUG_PRINT(("before filter static ins : %lu\n", static_info.size()), 2);
   filter_disasm_vector(instrs_forward, static_info);
-  DEBUG_PRINT(("after filter static ins : %d\n", static_info.size()), 2);
+  DEBUG_PRINT(("after filter static ins : %lu\n", static_info.size()), 2);
 
   if ((anaopt & DEPENDANT_ANALYSIS) == DEPENDANT_ANALYSIS) {
     LOG(log_file, " dependant analysis " << endl);
@@ -695,7 +695,7 @@ int main(int argc, char** argv)
     start_points = get_instrace_startpoints(instrs_backward, start_pcs);
     start_points_forward = get_instrace_startpoints(instrs_forward, start_pcs);
     DEBUG_PRINT(
-        ("no of funcs captured - %d\n start points : \n", start_points.size()),
+        ("no of funcs captured - %lu\n start points : \n", start_points.size()),
         1);
     for (int i = 0; i < start_points.size(); i++) {
       DEBUG_PRINT(("%d-", start_points[i]), 1);
@@ -811,14 +811,14 @@ int main(int argc, char** argv)
   if (clustered_trees.size() > 0) {
     for (int i = 0; i < clustered_trees.size(); i++) {
       DEBUG_PRINT(
-          ("cluster - %d, size - %d\n", i, clustered_trees[i].size()), 2);
+          ("cluster - %d, size - %lu\n", i, clustered_trees[i].size()), 2);
       DEBUG_PRINT(("printing to dot file...\n"), 2);
       ofstream conc_file(
           output_folder + file_substr + "_conctree_" + to_string(i) + ".dot",
           ofstream::out);
       clustered_trees[i][0]->print_dot(conc_file, "conc", i);
       DEBUG_PRINT(
-          ("conditionals: %d\n", clustered_trees[i][0]->conditionals.size()),
+          ("conditionals: %lu\n", clustered_trees[i][0]->conditionals.size()),
           2);
     }
   } else {
