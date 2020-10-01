@@ -6,11 +6,11 @@
 #include <utility/defines.h>
 #include <utility/fileparser.h>
 
-#include <analysis\conditional_analysis.h>
-#include <analysis\indirection_analysis.h>
-#include <analysis\preprocess.h>
-#include <analysis\staticinfo.h>
-#include <analysis\tree_analysis.h>
+#include <analysis/conditional_analysis.h>
+#include <analysis/indirection_analysis.h>
+#include <analysis/preprocess.h>
+#include <analysis/staticinfo.h>
+#include <analysis/tree_analysis.h>
 
 #include <memory/memanalysis.h>
 #include <memory/memdump.h>
