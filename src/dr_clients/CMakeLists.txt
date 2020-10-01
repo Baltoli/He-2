@@ -91,13 +91,15 @@ function (add_sample_client name source_file_list extension_list)
     use_DynamoRIO_extension(${name} ${ext})
   endforeach (ext)
 
+  target_include_directories(${name}
+    PRIVATE include)
+
   # Provide a hint for how to use the client
   if (NOT DynamoRIO_INTERNAL OR NOT "${CMAKE_GENERATOR}" MATCHES "Ninja")
-    get_target_property(path ${name} LOCATION${location_suffix})
     add_custom_command(TARGET ${name}
       POST_BUILD
       COMMAND ${CMAKE_COMMAND}
-      ARGS -E echo "Usage: pass to drconfig or drrun: -c ${path}"
+      ARGS -E echo "Usage: pass to drconfig or drrun: -c $<TARGET_FILE:${name}>"
       VERBATIM)
   endif ()
 
@@ -108,11 +110,11 @@ function (add_sample_client name source_file_list extension_list)
   set(tgts ${tgts} ${name} PARENT_SCOPE)                          # NON-PUBLIC
 endfunction (add_sample_client)
 
-get_cmake_property(_variableNames VARIABLES)
-list (SORT _variableNames)
-foreach (_variableName ${_variableNames})
-    message(STATUS "${_variableName}=${${_variableName}}")
-endforeach()
+# get_cmake_property(_variableNames VARIABLES)
+# list (SORT _variableNames)
+# foreach (_variableName ${_variableNames})
+#     message(STATUS "${_variableName}=${${_variableName}}")
+# endforeach()
 
 ############################################################################
 
@@ -135,7 +137,7 @@ endforeach()
 #include_directories("$ENV{DYNAMORIO_HOME}/ext/drwrap")
 #include_directories("include")
 #include_directories("obj")
-#add_sample_client(exalgo    "src/main.c;src/misc.c;src/funcwrap.c;src/profile_global.c;src/moduleinfo.c;src/cpuid.c;src/memtrace.c;src/inscount.c;src/instrace.c;src/utilities.c;src/debug.c;src/stack.c;src/functrace.c;src/memdump.c;src/funcreplace.c;obj/halide_blur_gen.o;obj/halide_rotate_gen.o;obj/halide_funcs.obj"      "drcontainers;drmgr;drutil;drwrap")
+add_sample_client(exalgo    "src/main.c;src/misc.c;src/funcwrap.c;src/profile_global.c;src/moduleinfo.c;src/cpuid.c;src/memtrace.c;src/inscount.c;src/instrace.c;src/utilities.c;src/debug.c;src/stack.c;src/functrace.c;src/memdump.c;src/funcreplace.c;obj/halide_blur_gen.o;obj/halide_rotate_gen.o;obj/halide_funcs.obj"      "drcontainers;drmgr;drutil;drwrap")
 ## add utils.h for installation  # NON-PUBLIC
 #set(srcs ${srcs} "utils.h")     # NON-PUBLIC
 ## obj/halide_blur_gen.o;obj/halide_funcs.obj
