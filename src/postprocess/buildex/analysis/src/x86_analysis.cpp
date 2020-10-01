@@ -93,36 +93,36 @@ enum lahf_bits {
     break
 
 #define sbsd_reg(v, start, opnd)                                               \
-  case DR_REG_R##v##:                                                          \
-  case DR_REG_E##v##:                                                          \
-  case DR_REG_##v##:                                                           \
+  case DR_REG_R##v:                                                            \
+  case DR_REG_E##v:                                                            \
+  case DR_REG_##v:                                                             \
   case DR_REG_##v##L:                                                          \
     assign_value(start, opnd)
 
 #define x64_reg(v, start, opnd)                                                \
-  case DR_REG_R##v##:                                                          \
+  case DR_REG_R##v:                                                            \
   case DR_REG_R##v##D:                                                         \
   case DR_REG_R##v##W:                                                         \
   case DR_REG_R##v##L:                                                         \
     assign_value(start, opnd)
 
 #define mmx_reg(v, start, end)                                                 \
-  case DR_REG_MM##v##:                                                         \
-  case DR_REG_XMM##v##:                                                        \
-  case DR_REG_YMM##v##:                                                        \
+  case DR_REG_MM##v:                                                           \
+  case DR_REG_XMM##v:                                                          \
+  case DR_REG_YMM##v:                                                          \
     assign_value(start, opnd)
 
 #define new_mmx_reg(v, start, end)                                             \
-  case DR_REG_XMM##v##:                                                        \
-  case DR_REG_YMM##v##:                                                        \
+  case DR_REG_XMM##v:                                                          \
+  case DR_REG_YMM##v:                                                          \
     assign_value(start, opnd)
 
 #define fp_reg(v, start, end)                                                  \
-  case DR_REG_##v##:                                                           \
+  case DR_REG_##v:                                                             \
     assign_value(start, opnd)
 
 #define seg_reg(v, start, end)                                                 \
-  case DR_SEG_##v##:                                                           \
+  case DR_SEG_##v:                                                             \
     assign_value(start, opnd)
 
 #define if_bounds(d, s) if ((cinstr->num_dsts == d) && (cinstr->num_srcs == s))
