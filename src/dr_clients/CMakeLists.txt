@@ -92,7 +92,7 @@ function (add_sample_client name source_file_list extension_list)
   endforeach (ext)
 
   target_include_directories(${name}
-    PRIVATE include)
+    PRIVATE include obj)
 
   # Provide a hint for how to use the client
   if (NOT DynamoRIO_INTERNAL OR NOT "${CMAKE_GENERATOR}" MATCHES "Ninja")
