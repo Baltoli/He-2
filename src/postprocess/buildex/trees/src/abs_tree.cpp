@@ -5,7 +5,7 @@
 #include <utility/defines.h>
 #include <utility/print_helper.h>
 
-#include <assert.h>
+#include <cassert>
 #include <fstream>
 #include <iostream>
 

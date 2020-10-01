@@ -1,11 +1,11 @@
 #ifndef _EXALGO_MEMINFO_H
 #define _EXALGO_MEMINFO_H
 
-#include <set>
-#include <stdint.h>
-#include <vector>
-
 #include <common/output.h>
+
+#include <cstdint>
+#include <set>
+#include <vector>
 
 // directions
 #define MEM_INPUT 0x1

@@ -1,17 +1,17 @@
 /* we will try to recreate the mem layout from the execution traces */
 
-#include <algorithm>
-#include <climits>
-#include <fstream>
-#include <iostream>
-#include <set>
-#include <stdint.h>
-#include <stdio.h>
-#include <vector>
-
 #include <common/common_defines.h>
 #include <common/meminfo.h>
 #include <common/utilities.h>
+
+#include <algorithm>
+#include <climits>
+#include <cstdint>
+#include <cstdio>
+#include <fstream>
+#include <iostream>
+#include <set>
+#include <vector>
 
 using namespace std;
 

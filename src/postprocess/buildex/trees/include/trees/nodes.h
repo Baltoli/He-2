@@ -5,7 +5,7 @@
 
 #include <common/output.h>
 
-#include <stdint.h>
+#include <cstdint>
 #include <vector>
 
 #define NODE_RIGHT 1

@@ -4,8 +4,8 @@
 #include <common/common_defines.h>
 #include <common/output.h>
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 
 enum {
   /*   0 */ OP_INVALID, /**< INVALID opcode */

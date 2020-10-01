@@ -1,8 +1,8 @@
 #ifndef _EXALGO_COMMON_DEFINES_H
 #define _EXALGO_COMMON_DEFINES_H
 
+#include <cstdint>
 #include <fstream>
-#include <stdint.h>
 
 #define MAX_STRING_LENGTH 2000
 

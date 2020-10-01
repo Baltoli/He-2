@@ -3,9 +3,9 @@
 
 #include <common/common_defines.h>
 
+#include <cstdint>
 #include <fstream>
 #include <iostream>
-#include <stdint.h>
 #include <string>
 #include <vector>
 

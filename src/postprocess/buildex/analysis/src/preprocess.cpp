@@ -5,9 +5,9 @@
 #include <common/common_defines.h>
 #include <common/meminfo.h>
 
+#include <cstdio>
+#include <cstdlib>
 #include <iostream>
-#include <stdio.h>
-#include <stdlib.h>
 #include <string>
 
 using namespace std;

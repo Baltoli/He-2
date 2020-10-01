@@ -8,8 +8,8 @@
 
 #include <common/output.h>
 
+#include <cstdint>
 #include <iostream>
-#include <stdint.h>
 #include <string>
 #include <vector>
 

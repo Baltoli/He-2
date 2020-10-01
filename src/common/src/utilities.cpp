@@ -1,11 +1,11 @@
-#include <assert.h>
-#include <iostream>
-#include <sstream>
-#include <stdint.h>
-#include <stdio.h>
-
 #include <common/common_defines.h>
 #include <common/utilities.h>
+
+#include <cassert>
+#include <cstdint>
+#include <cstdio>
+#include <iostream>
+#include <sstream>
 
 #define EPSILON 1e-6
 

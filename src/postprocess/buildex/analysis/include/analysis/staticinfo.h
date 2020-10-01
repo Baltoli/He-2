@@ -5,13 +5,11 @@
 structure will summarize all the static information found about dynamically
 executed instructions */
 
-#include <stdint.h>
-#include <string>
-#include <vector>
-
 #include <common/output.h>
 
-//#include "analysis/x86_analysis.h"
+#include <cstdint>
+#include <string>
+#include <vector>
 
 struct Jump_Info {
 

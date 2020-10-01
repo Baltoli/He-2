@@ -8,8 +8,8 @@
 
 #include <common/imageinfo.h>
 
+#include <cstdint>
 #include <fstream>
-#include <stdint.h>
 #include <string>
 
 /*

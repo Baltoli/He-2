@@ -4,14 +4,14 @@
 #include <common/utilities.h>
 
 #include <algorithm>
-#include <assert.h>
+#include <cassert>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 #include <fstream>
 #include <map>
 #include <queue>
 #include <sstream>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include <vector>
 
 using namespace std;

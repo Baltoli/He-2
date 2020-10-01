@@ -8,7 +8,7 @@
 #include <common/utilities.h>
 
 #include <algorithm>
-#include <assert.h>
+#include <cassert>
 #include <fstream>
 #include <iostream>
 

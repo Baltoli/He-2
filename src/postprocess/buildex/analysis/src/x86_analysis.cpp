@@ -5,9 +5,9 @@
 #include <utility/fileparser.h> /* disasm strings*/
 #include <utility/print_helper.h> /* printing opnd etc.*/
 
+#include <cstdio>
+#include <cstdlib>
 #include <iostream>
-#include <stdio.h>
-#include <stdlib.h>
 #include <string>
 
 using namespace std;

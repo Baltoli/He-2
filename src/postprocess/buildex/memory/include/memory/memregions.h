@@ -6,7 +6,7 @@
 #include <analysis/staticinfo.h>
 #include <analysis/x86_analysis.h>
 
-#include <stdint.h>
+#include <cstdint>
 #include <string>
 #include <vector>
 

@@ -1,59 +1,59 @@
-#include <assert.h>
+#include <trees/nodes.h>
+
+#include <utility/defines.h>
+
+#include <cassert>
 #include <fstream>
 #include <iostream>
-#include "utility/defines.h"
-
-#include "trees/nodes.h"
 
 using namespace std;
 
-Comp_Abs_Node::Comp_Abs_Node() : Node(){
-
+Comp_Abs_Node::Comp_Abs_Node()
+    : Node()
+{
 }
 
-Comp_Abs_Node::Comp_Abs_Node(Node * node) : Node(*node){
-
+Comp_Abs_Node::Comp_Abs_Node(Node* node)
+    : Node(*node)
+{
 }
 
-Comp_Abs_Node::Comp_Abs_Node(vector<Abs_Node *> abs_nodes){
-	nodes = abs_nodes;
-}
+Comp_Abs_Node::Comp_Abs_Node(vector<Abs_Node*> abs_nodes) { nodes = abs_nodes; }
 
 string Comp_Abs_Node::get_node_string()
 {
-	string ret = "";
+  string ret = "";
 
-	for (int i = 0; i < this->nodes.size(); i++){
-		Abs_Node * instance = dynamic_cast<Abs_Node*>(this->nodes[i]);
+  for (int i = 0; i < this->nodes.size(); i++) {
+    Abs_Node* instance = dynamic_cast<Abs_Node*>(this->nodes[i]);
 
-		if (instance->type == Abs_Node::INPUT_NODE || instance->type == Abs_Node::OUTPUT_NODE || instance->type == Abs_Node::INTERMEDIATE_NODE || instance->type == Abs_Node::IMMEDIATE_INT){
-			ret += instance->get_node_string() + "\\n";
-		}
-		else{
-			ret += instance->get_node_string();
-			break;
-		}
-	}
+    if (instance->type == Abs_Node::INPUT_NODE
+        || instance->type == Abs_Node::OUTPUT_NODE
+        || instance->type == Abs_Node::INTERMEDIATE_NODE
+        || instance->type == Abs_Node::IMMEDIATE_INT) {
+      ret += instance->get_node_string() + "\\n";
+    } else {
+      ret += instance->get_node_string();
+      break;
+    }
+  }
 
-	return ret;
+  return ret;
 }
 
-bool Comp_Abs_Node::are_nodes_similar(Node * node){
+bool Comp_Abs_Node::are_nodes_similar(Node* node)
+{
 
-	Comp_Abs_Node * comp_node = static_cast<Comp_Abs_Node *>(node);
-	
-	if (comp_node->nodes.size() == 0) return nodes.size() == 0;
-	if (nodes.size() == 0) return comp_node->nodes.size() == 0;
+  Comp_Abs_Node* comp_node = static_cast<Comp_Abs_Node*>(node);
 
-	return nodes[0]->are_nodes_similar(comp_node->nodes[0]);
+  if (comp_node->nodes.size() == 0)
+    return nodes.size() == 0;
+  if (nodes.size() == 0)
+    return comp_node->nodes.size() == 0;
 
-
+  return nodes[0]->are_nodes_similar(comp_node->nodes[0]);
 }
 
-string Comp_Abs_Node::get_dot_string(){
-	return get_node_string();
-}
+string Comp_Abs_Node::get_dot_string() { return get_node_string(); }
 
-string Comp_Abs_Node::get_simpl_string(){
-	throw "not implemented!";
-}
+string Comp_Abs_Node::get_simpl_string() { throw "not implemented!"; }

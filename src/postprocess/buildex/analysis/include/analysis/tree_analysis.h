@@ -7,9 +7,9 @@
 
 #include <common/meminfo.h>
 
+#include <cstdint>
 #include <fstream>
 #include <iostream>
-#include <stdint.h>
 #include <vector>
 
 #define FILE_BEGINNING -2

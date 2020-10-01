@@ -1,14 +1,14 @@
-#include <iostream>
-#include <stdlib.h>
-#include <string>
-#include <sys/stat.h>
-
 #include <memory/memdump.h>
 
 #include <utility/defines.h>
 
 #include <common/imageinfo.h>
 #include <common/utilities.h>
+
+#include <cstdlib>
+#include <iostream>
+#include <string>
+#include <sys/stat.h>
 
 /*
 * following are mem layout dependant functions which convert concrete mem layout

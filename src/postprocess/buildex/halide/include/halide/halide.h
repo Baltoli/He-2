@@ -7,9 +7,9 @@
 
 #include <memory/memregions.h>
 
+#include <cstdint>
 #include <map>
 #include <ostream>
-#include <stdint.h>
 #include <vector>
 
 struct mem_dump_regions_t {

@@ -6,7 +6,7 @@
 
 #include <memory/memregions.h>
 
-#include <stdint.h>
+#include <cstdint>
 #include <vector>
 
 std::vector<std::vector<uint32_t>> find_dependant_statements_with_indirection(

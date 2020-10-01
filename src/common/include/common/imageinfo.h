@@ -1,7 +1,7 @@
 #ifndef _EXALGO_IMAGEINFO_H
 #define _EXALGO_IMAGEINFO_H
 
-#include <stdint.h>
+#include <cstdint>
 #include <string>
 
 using namespace std;

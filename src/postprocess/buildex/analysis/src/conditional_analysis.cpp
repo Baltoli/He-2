@@ -10,7 +10,7 @@
 #include <common/utilities.h>
 
 #include <algorithm>
-#include <stdint.h>
+#include <cstdint>
 #include <string>
 #include <vector>
 

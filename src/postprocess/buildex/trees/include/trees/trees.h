@@ -5,7 +5,7 @@
 
 #include <analysis/x86_analysis.h>
 
-#include <stdint.h>
+#include <cstdint>
 
 /* trees and their routines */
 
