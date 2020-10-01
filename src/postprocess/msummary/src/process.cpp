@@ -105,7 +105,7 @@ int main()
 
   for (int i = 0; i <= MAX_ACCESSES; i++) {
     if (per_ins_accesses[i].size() > 0) {
-      fprintf(output, "%x - %u\n", i, per_ins_accesses[i].size());
+      fprintf(output, "%x - %lu\n", i, per_ins_accesses[i].size());
       for (int j = 0; j < per_ins_accesses[i].size(); j++) {
         fprintf(
             output, "(%x,%x)\n", per_ins_accesses[i][j].first,
