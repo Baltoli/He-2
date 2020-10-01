@@ -155,11 +155,11 @@ dr_emit_flags_t funcreplace_bb_app2app(
 void clean_call_halide()
 {
 
-  int x = 2 + 3;
+  /* int x = 2 + 3; */
 
   // printf("charith\n");
   // dr_switch_to_app_state(dr_get_current_drcontext());
-  do_nothing_halide();
+  /* do_nothing_halide(); */
   // dr_switch_to_dr_state(dr_get_current_drcontext());
   // dr_printf("clean_call_halide\n");
   /*do_blur_test();
@@ -221,7 +221,7 @@ static void pre_func_cb_2(void* wrapcxt, OUT void** user_data)
   dr_write_file(dump_file, values, width * height);
   dr_close_file(dump_file);*/
 
-  do_blur_test(other, height, input, output);
+  /* do_blur_test(other, height, input, output); */
   // dr_printf("%d,%d,%d\n", i, j, j*height + i);
   // for (i = 0; i < 10; i++){
 
