@@ -2,11 +2,9 @@ add_executable(image_blur src/blur.cpp)
 target_link_libraries(image_blur
   common)
 
-#include_directories("include_image")
-#include_directories("include")
-
-##image manipulation sources
-#add_executable(image_invert src_image/image_manipulation.cpp src_image/invert.cpp)
+add_executable(image_invert src/invert.cpp)
+target_link_libraries(image_invert
+  common)
 
 ##basic tests sources
 #add_executable(basic_arith src_basic/arith.cpp)

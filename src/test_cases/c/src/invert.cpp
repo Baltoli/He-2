@@ -1,68 +1,55 @@
-#include <windows.h>
-#include <string>
-#include <gdiplus.h>
+#include <common/imageinfo.h>
+
+#include <cassert>
+#include <cstdint>
+#include <cwchar>
 #include <iostream>
-#include <stdint.h>
-#include <wchar.h>
-#include <assert.h>
-#include "image_manipulation.h"
+#include <string>
 
 using namespace std;
-using namespace Gdiplus;
 
-void inverse(byte * input, byte * output, int height, int width, int fields){
+void inverse(char* input, char* output, int height, int width, int fields)
+{
+  for (int i = 0; i < height; i++) {
+    for (int j = 0; j < width; j++) {
+      uint32_t index = (i * width + j) * fields;
 
-	for (int i = 0; i < height; i++){
-		for (int j = 0; j < width; j++){
-			uint32_t index = (i * width + j)*fields;
-
-			for (int k = 0; k < fields; k++){
-				output[index + k] = 255 - input[index + k];
-			}
-
-		}
-	}
-
-
+      for (int k = 0; k < fields; k++) {
+        output[index + k] = 255 - input[index + k];
+      }
+    }
+  }
 }
 
-int main(int argc, char* argv[]){
+int main(int argc, char* argv[])
+{
+  auto token = initialize_image_subsystem();
 
+  assert(argc == 3);
 
-	ULONG_PTR token = initialize_image_subsystem();
+  auto input_file = argv[1];
+  auto output_file = argv[2];
 
-	assert(argc == 3);
+  bitmap* image = open_image(input_file);
 
-	wchar_t * input_file = new wchar_t[strlen(argv[1] + 1)];
-	wchar_t * output_file = new wchar_t[strlen(argv[2] + 1)];
-	mbstowcs(input_file, argv[1], strlen(argv[1]) + 1);
-	mbstowcs(output_file, argv[2], strlen(argv[2]) + 1);
+  char* input_buffer = get_image_buffer(image);
+  uint32_t width = image->width;
+  uint32_t height = image->height;
+  uint32_t fields = image->channels;
 
+  /* for inverse we need the same sized array as input_buffer */
+  char* output_buffer = new char[height * width * fields];
 
-	uint32_t width;
-	uint32_t height;
-	uint32_t fields;
+  inverse(input_buffer, output_buffer, height, width, 3);
 
-	Bitmap * image = Bitmap::FromFile(input_file);
+  update_image_buffer(image, output_buffer);
 
-	byte * input_buffer = get_image_buffer(image, &height, &width, &fields);
+  save_image(image, output_file);
 
-	/* for inverse we need the same sized array as input_buffer */
-	byte * output_buffer = new byte[height * width * fields];
+  delete image;
 
-	inverse(input_buffer, output_buffer, height, width, 3);
+  shutdown_image_subsystem(token);
 
-	update_image_buffer(image, output_buffer);
-
-	save_image(image, output_file);
-
-
-	delete image;
-
-	shutdown_image_subsystem(token);
-
-	return 0;
+  return 0;
 }
-
-
 
