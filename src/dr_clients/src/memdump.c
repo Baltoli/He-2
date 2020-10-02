@@ -191,8 +191,8 @@ static void add_to_mem_region(
   (*region_size)++;
 }
 
-static char*
-get_mem_dump_filename(app_pc base_pc, uint64 size, uint64 write, uint64 other_info)
+static char* get_mem_dump_filename(
+    app_pc base_pc, uint64 size, uint64 write, uint64 other_info)
 {
 
   char other_details[MAX_STRING_LENGTH];
@@ -233,7 +233,7 @@ void clean_call_mem_information(instr_t* instr, app_pc mem_val, uint64 write)
 
   app_pc base_pc;
   size_t size;
-  uint64 prot;
+  uint prot;
   file_t dump_file;
   char* dump_filename;
 
