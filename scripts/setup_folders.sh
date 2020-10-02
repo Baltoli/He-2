@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SCRIPTS_DIR=$(dirname $(realpath $0))
+SCRIPTS_DIR=$(dirname $(realpath -s "${BASH_SOURCE[0]}"))
 ROOT_DIR=$(realpath "$SCRIPTS_DIR/..")
 
 cd $ROOT_DIR
