@@ -21,7 +21,7 @@ thread_func_t thread_exit;
 
 typedef struct _client_arg_t{
 	char filter_filename[MAX_STRING_LENGTH];
-	uint filter_mode;
+	uint64 filter_mode;
 } client_arg_t;
 
 typedef struct {

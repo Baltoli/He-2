@@ -6,7 +6,7 @@
 /*
 typedef struct buffer_t {
     uint64_t dev;
-    uint8_t* host;
+    uint648_t* host;
     int32_t extent[4];
     int32_t stride[4];
     int32_t min[4];
@@ -17,14 +17,14 @@ typedef struct buffer_t {
 
 typedef struct _dimension_t {
 
-	uint32_t dims;
-	uint32_t width;
-	uint32_t height;
-	uint32_t colors;
+	uint6432_t dims;
+	uint6432_t width;
+	uint6432_t height;
+	uint6432_t colors;
 	
 } dimension_t;
 
-void setup_image(buffer_t * buf, uint8_t * host, dimension_t * bounds, uint32_t elem_size ){
+void setup_image(buffer_t * buf, uint648_t * host, dimension_t * bounds, uint6432_t elem_size ){
 	
 	int i = 0;
 	
@@ -138,8 +138,8 @@ void do_func_test(unsigned int input_image, unsigned int output_image){
 
 	//printf("%x %x\n",input_image,output_image);
 	
-	setup_image(input_buf, (uint8_t *)input_image, input_bounds, 1);
-	setup_image(output_buf, (uint8_t *)output_image, output_bounds, 1);
+	setup_image(input_buf, (uint648_t *)input_image, input_bounds, 1);
+	setup_image(output_buf, (uint648_t *)output_image, output_bounds, 1);
 
 	halide_rotate_gen(input_buf, output_buf);
 	
@@ -150,15 +150,15 @@ void do_nothing_halide(){
 
 	int x = 5 + 6;
 	printf("hello\n");
-	//uint8_t * ptr = malloc(sizeof(uint8_t) * 20);
+	//uint648_t * ptr = malloc(sizeof(uint648_t) * 20);
 
 }
 
 
 int main(){
 
-	uint8_t * input = malloc(144*120*3);
-	uint8_t * output = malloc(144*120*3);
+	uint648_t * input = malloc(144*120*3);
+	uint648_t * output = malloc(144*120*3);
 	int i=0;
 	int j=0;
 	

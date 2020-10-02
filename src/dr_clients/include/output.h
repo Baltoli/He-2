@@ -18,8 +18,8 @@ typedef unsigned int uint;
 
 typedef struct _operand_t {
 
-  uint type;
-  uint width;
+  uint64 type;
+  uint64 width;
   union {
     uint64 value;
     float float_value;
@@ -29,13 +29,13 @@ typedef struct _operand_t {
 
 typedef struct _output_t {
 
-  uint opcode;
-  uint num_srcs;
-  uint num_dsts;
+  uint64 opcode;
+  uint64 num_srcs;
+  uint64 num_dsts;
   operand_t srcs[MAX_SRCS];
   operand_t dsts[MAX_DSTS];
-  uint eflags;
-  uint pc;
+  uint64 eflags;
+  uint64 pc;
 
 } output_t;
 

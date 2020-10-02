@@ -19,7 +19,7 @@ static bool parse_commandline_args (const char * args);
 
 typedef struct _client_arg_t{
 	char filter_filename[MAX_STRING_LENGTH];
-	uint filter_mode;
+	uint64 filter_mode;
 } client_arg_t;
 
 static client_arg_t * client_arg;
@@ -34,7 +34,7 @@ static uint64 global_count;
 static file_t logfile;
 static char ins_pass_name[MAX_STRING_LENGTH];
 
-static void inscount(uint num_instrs) { global_count += num_instrs; }
+static void inscount(uint64 num_instrs) { global_count += num_instrs; }
 
 static bool parse_commandline_args (const char * args) {
 
@@ -123,7 +123,7 @@ inscount_bb_instrumentation(void *drcontext, void *tag, instrlist_t *bb,
 {
 
 	instr_t *first = instrlist_first(bb);
-	uint num_instrs = 0;
+	uint64 num_instrs = 0;
 
 	if(instr != first) 
 		return DR_EMIT_DEFAULT;

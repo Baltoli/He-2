@@ -55,13 +55,13 @@
 typedef struct _instr_trace_t {
 
 	instr_t * static_info_instr;
-	uint num_mem;
-	uint pos[MAX_MEM_OPNDS];
-	uint dst_or_src[MAX_MEM_OPNDS];
-	uint mem_type[MAX_MEM_OPNDS];
+	uint64 num_mem;
+	uint64 pos[MAX_MEM_OPNDS];
+	uint64 dst_or_src[MAX_MEM_OPNDS];
+	uint64 mem_type[MAX_MEM_OPNDS];
 	uint64 mem_opnds[MAX_MEM_OPNDS];
-	uint eflags;
-	uint pc;
+	uint64 eflags;
+	uint64 pc;
 
 } instr_trace_t;
 
@@ -77,8 +77,8 @@ typedef struct {
 	
 	/* array to keep static instructions */
 	instr_t ** static_array;
-	uint static_ptr;
-	uint static_array_size;
+	uint64 static_ptr;
+	uint64 static_array_size;
 
     file_t outfile;
 	file_t logfile;
@@ -86,8 +86,8 @@ typedef struct {
 	uint64  num_refs;
 
 	/* thread stack limits */
-	uint stack_base;
-	uint deallocation_stack;
+	uint64 stack_base;
+	uint64 deallocation_stack;
 
 
 } per_thread_t;
@@ -96,10 +96,10 @@ typedef struct {
 typedef struct _client_arg_t {
 
 	char filter_filename[MAX_STRING_LENGTH];
-	uint filter_mode;
+	uint64 filter_mode;
 	char output_folder[MAX_STRING_LENGTH];
-	uint static_info_size;
-	uint instrace_mode;
+	uint64 static_info_size;
+	uint64 instrace_mode;
 	char extra_info[MAX_STRING_LENGTH];
 
 } client_arg_t;
@@ -136,11 +136,11 @@ static bool parse_commandline_args(const char * args);
 //needed instrumentation
 static void clean_call_ins_trace(void);
 static void clean_call_disassembly_trace();
-static void clean_call_populate_mem(reg_t regvalue, uint pos, uint dest_or_src);
+static void clean_call_populate_mem(reg_t regvalue, uint64 pos, uint64 dest_or_src);
 //debug
 static void clean_call_print_regvalues();
 static void clean_call_mem_stats(reg_t memvalue);
-static void clean_call_teb_info(uint * stack_base, uint * stack_limit, uint * deallocation_stack);
+static void clean_call_teb_info(uint64 * stack_base, uint64 * stack_limit, uint64 * deallocation_stack);
 
 /* printing functions */
 static void ins_trace(void *drcontext);
@@ -253,8 +253,8 @@ void instrace_thread_init(void *drcontext)
     per_thread_t *data;
 	char * mode;
 
-	uint * stack_base;
-	uint * deallocation_stack;
+	uint64 * stack_base;
+	uint64 * deallocation_stack;
 
 	DEBUG_PRINT("%s - initializing thread %d\n", ins_pass_name, dr_get_thread_id(drcontext));
 
@@ -482,7 +482,7 @@ static void dynamic_info_instrumentation(void *drcontext, instrlist_t *ilist, in
 
 	/* 
 		issues that may arise
-		1. pc and eflags is uint but in 64 bit mode 8 byte transfers are done -> so far no problem (need to see this)
+		1. pc and eflags is uint64 but in 64 bit mode 8 byte transfers are done -> so far no problem (need to see this)
 			need to see whether there is a better way
 		2. double check all the printing
 	*/
@@ -507,8 +507,8 @@ static void dynamic_info_instrumentation(void *drcontext, instrlist_t *ilist, in
     reg_id_t reg2 = DR_REG_XCX; /* reg2 must be ECX or RCX for jecxz */
 	reg_id_t reg3 = DR_REG_XAX;
     per_thread_t *data;
-    uint pc;
-	uint i;
+    uint64 pc;
+	uint64 i;
 
 	module_data_t * module_data;
 
@@ -815,7 +815,7 @@ static void clean_call_disassembly_trace(){
 }
 
 /* called when the mode is ins trace to populate the memory operands */
-static void clean_call_populate_mem(reg_t regvalue, uint pos, uint dest_or_src){
+static void clean_call_populate_mem(reg_t regvalue, uint64 pos, uint64 dest_or_src){
 
 
 	char string_ins[MAX_STRING_LENGTH];
@@ -842,12 +842,12 @@ static void clean_call_populate_mem(reg_t regvalue, uint pos, uint dest_or_src){
 }
 
 /* prints out the operands / populates the operands in the instrace mode */
-static void output_populator_printer(void * drcontext, opnd_t opnd, instr_t * instr, uint64 addr, uint mem_type, operand_t * output){
+static void output_populator_printer(void * drcontext, opnd_t opnd, instr_t * instr, uint64 addr, uint64 mem_type, operand_t * output){
 
 
 	int value;
 	float float_value;
-	uint width;
+	uint64 width;
 	int i;
 
 	per_thread_t * data = drmgr_get_tls_field(drcontext,tls_index);
@@ -923,9 +923,9 @@ static void output_populator_printer(void * drcontext, opnd_t opnd, instr_t * in
 }
 
 /* helper functions for the print trace */
-static void get_address(instr_trace_t *trace, uint pos, uint dst_or_src, uint *type, uint64  *addr){
+static void get_address(instr_trace_t *trace, uint64 pos, uint64 dst_or_src, uint64 *type, uint64  *addr){
 
-	uint i;
+	uint64 i;
 	*type = 0;
 	*addr = 0;
 
@@ -940,7 +940,7 @@ static void get_address(instr_trace_t *trace, uint pos, uint dst_or_src, uint *t
 	
 }
 
-static uint calculate_operands(instr_t * instr,uint dst_or_src){
+static uint64 calculate_operands(instr_t * instr,uint64 dst_or_src){
 
 	opnd_t op;
 	int i;
@@ -997,7 +997,7 @@ static void ins_trace(void *drcontext)
     instr_trace   = (instr_trace_t *)data->buf_base;
     num_refs  = (int)((instr_trace_t *)data->buf_ptr - instr_trace);
 
-	uint mem_type;
+	uint64 mem_type;
 	uint64 mem_addr;
 
 	opnd_t opnd;
@@ -1127,7 +1127,7 @@ code_cache_exit(void)
 
 static void clean_call_print_regvalues(){
 
-	uint regvalue;
+	uint64 regvalue;
 	dr_mcontext_t mc = { sizeof(mc), DR_MC_ALL };
 	void * drcontext = dr_get_current_drcontext();
 
@@ -1147,9 +1147,9 @@ static void clean_call_print_regvalues(){
 static void clean_call_mem_stats(reg_t memvalue){
 
 	dr_mem_info_t info;
-	uint base;
-	uint limit;
-	uint reserve;
+	uint64 base;
+	uint64 limit;
+	uint64 reserve;
 
 	void * drcontext = dr_get_current_drcontext();
 
@@ -1174,7 +1174,7 @@ static void clean_call_mem_stats(reg_t memvalue){
 
 }
 
-static void clean_call_teb_info(uint * stack_base, uint * stack_limit, uint * deallocation_stack){
+static void clean_call_teb_info(uint64 * stack_base, uint64 * stack_limit, uint64 * deallocation_stack){
 
 	__asm{
 		mov EAX, FS : [0x04]

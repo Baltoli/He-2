@@ -61,8 +61,8 @@ typedef struct _per_thread_data_t {
 
 typedef struct _client_arg_t {
 
-	uint filter_mode;
-	uint threshold;
+	uint64 filter_mode;
+	uint64 threshold;
 	char folder[MAX_STRING_LENGTH];
 	char in_filename[MAX_STRING_LENGTH];
 	char out_filename[MAX_STRING_LENGTH];
@@ -73,12 +73,12 @@ typedef struct _client_arg_t {
 
 
 /*analysis clean calls*/
-static void clean_call(void* bb,int offset,const char * module,uint is_call,uint call_addr);
+static void clean_call(void* bb,int offset,const char * module,uint64 is_call,uint64 call_addr);
 
 /*debug and auxiliary prototypes*/
 static void print_commandline_args (client_arg_t * args);
 static bool parse_commandline_args (const char * args);
-static void get_full_filename_with_process(char * fileName,char * dest,uint processId);
+static void get_full_filename_with_process(char * fileName,char * dest,uint64 processId);
 static void get_full_filename(char * fileName, char * dest);
 static void process_output();
 
@@ -210,7 +210,7 @@ static void process_output(){
 
 	module_t * local_head = info_head->next;
 	int size = 0;
-	uint i = 0, j = 0;
+	uint64 i = 0, j = 0;
 	bool printed = 0;
 
 
@@ -276,7 +276,7 @@ static void process_output(){
 still we have not implemented inter module calls/bb jumps; we only update bb information if it is 
 in the same module
 */
-static void clean_call(void* bb,int offset,const char * module,uint is_call,uint call_addr){
+static void clean_call(void* bb,int offset,const char * module,uint64 is_call,uint64 call_addr){
 	
 	//get the drcontext
 	void * drcontext;
@@ -332,7 +332,7 @@ static void clean_call(void* bb,int offset,const char * module,uint is_call,uint
 
 	//update information
 	
-	data->prev_bb_start_addr = (uint)offset;
+	data->prev_bb_start_addr = (uint64)offset;
 	strncpy(data->module_name,module,MAX_STRING_LENGTH);
 	data->is_call_ins = is_call;
 	data->call_ins_addr = call_addr;
@@ -371,8 +371,8 @@ bbinfo_bb_instrumentation(void *drcontext, void *tag, instrlist_t *bb,
 		bbinfo_t * bbinfo;
 		int offset;
 
-		uint is_call;
-		uint call_addr;
+		uint64 is_call;
+		uint64 call_addr;
 		
 		if(instr_current != first)
 			return DR_EMIT_DEFAULT;
@@ -495,7 +495,7 @@ static bool parse_commandline_args (const char * args) {
 	return true;
 }
 
-static void get_full_filename_with_process(char * fileName,char * dest,uint processId) {
+static void get_full_filename_with_process(char * fileName,char * dest,uint64 processId) {
 
 	char filenamel[MAX_STRING_LENGTH];
 	char number[MAX_STRING_LENGTH];

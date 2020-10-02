@@ -3,6 +3,6 @@
 
 #include "dr_api.h"
 
-void do_blur(uint x, uint y);
+void do_blur(uint64 x, uint64 y);
 
 #endif

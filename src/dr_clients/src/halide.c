@@ -1,7 +1,7 @@
 #include "halide_blur_gen.h"
 #include "halide.h"
 
-void do_blur(uint x, uint y){
+void do_blur(uint64 x, uint64 y){
 
 	halide_blur_gen(NULL,NULL);
 

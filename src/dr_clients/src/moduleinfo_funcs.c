@@ -145,7 +145,7 @@ module_t * md_lookup_module (module_t * head,char * name){
 }
 
 
-bool md_add_module(module_t * head, char * name, uint length_list_bbs){
+bool md_add_module(module_t * head, char * name, uint64 length_list_bbs){
 	
 	module_t * tail;
 

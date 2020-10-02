@@ -80,7 +80,7 @@ typedef struct _per_thread_data_t {
 typedef struct _client_arg_t {
 
   char filter_filename[MAX_STRING_LENGTH];
-  uint filter_mode;
+  uint64 filter_mode;
   char output_folder[MAX_STRING_LENGTH];
   char extra_info[MAX_STRING_LENGTH];
 
@@ -90,7 +90,7 @@ typedef struct _client_arg_t {
 
 /*analysis clean calls*/
 static void bbinfo_population(
-    void* bb, int offset, const char* module, uint is_call, uint call_addr);
+    void* bb, int offset, const char* module, uint64 is_call, uint64 call_addr);
 static void register_bb(void* bbinfo);
 static void called_to_population(app_pc instr_addr, app_pc target_addr);
 static void populate_call_target_information();
@@ -276,7 +276,7 @@ static void print_readable_output()
 
   module_t* local_head = info_head->next;
   int size = 0;
-  uint i = 0, j = 0;
+  uint64 i = 0, j = 0;
   bool printed = 0;
 
   md_sort_bb_list_in_module(info_head);
@@ -320,7 +320,7 @@ still we have not implemented inter module calls/bb jumps; we only update bb
 information if it is in the same module
 */
 static void bbinfo_population(
-    void* bb, int offset, const char* module, uint is_call, uint call_addr)
+    void* bb, int offset, const char* module, uint64 is_call, uint64 call_addr)
 {
 
   // get the drcontext
@@ -381,7 +381,7 @@ static void bbinfo_population(
 
   // update information
 
-  data->prev_bb_start_addr = (uint)offset;
+  data->prev_bb_start_addr = (uint64)offset;
   strncpy(data->module_name, module, MAX_STRING_LENGTH);
   data->is_call_ins = is_call;
   data->call_ins_addr = call_addr;
@@ -424,7 +424,7 @@ static void called_to_population(app_pc instr_addr, app_pc target_addr)
 
   int i = 0;
   int num_calls = 0;
-  uint offset = 0;
+  uint64 offset = 0;
 
   bool found = false;
 
@@ -471,7 +471,7 @@ static void call_target_info(app_pc instr_addr, app_pc target_addr)
 {
 
   module_data_t* module_data = dr_lookup_module(target_addr);
-  uint offset;
+  uint64 offset;
   bbinfo_t* bb;
 
   if (module_data != NULL) {
@@ -497,7 +497,7 @@ void call_target_info_wo_called_to(app_pc instr_addr, app_pc target_addr)
   module_data_t* module_data = dr_lookup_module(target_addr);
   per_thread_data_t* data
       = drmgr_get_tls_field(dr_get_current_drcontext(), tls_index);
-  uint offset;
+  uint64 offset;
   bbinfo_t* bb;
 
   if (module_data != NULL) {
@@ -529,16 +529,16 @@ dr_emit_flags_t bbinfo_bb_instrumentation(
   bbinfo_t* bbinfo;
   int offset;
 
-  uint is_call;
-  uint is_ret;
-  uint call_addr;
+  uint64 is_call;
+  uint64 is_ret;
+  uint64 call_addr;
 
-  uint bb_size = 0;
+  uint64 bb_size = 0;
   int i = 0;
 
-  uint filtered = true;
+  uint64 filtered = true;
 
-  uint srcs;
+  uint64 srcs;
   reg_id_t reg1 = DR_REG_XAX;
   reg_id_t reg2 = DR_REG_XBX;
   opnd_t opnd1;

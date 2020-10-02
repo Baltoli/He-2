@@ -30,7 +30,7 @@ thread_func_t thread_exit;
 typedef struct _client_arg_t {
 
   char filter_filename[MAX_STRING_LENGTH];
-  uint filter_mode;
+  uint64 filter_mode;
   char app_pc_filename[MAX_STRING_LENGTH];
   char output_folder[MAX_STRING_LENGTH];
 
@@ -44,7 +44,7 @@ typedef struct {
 typedef struct {
 
   app_pc base_pc;
-  uint size;
+  uint64 size;
 
 } mem_alloc_t;
 
@@ -62,13 +62,13 @@ static file_t logfile;
 static char ins_pass_name[MAX_STRING_LENGTH];
 
 static instr_t** instr_clones[MAX_CLONE_INS];
-static uint instr_clone_amount = 0;
+static uint64 instr_clone_amount = 0;
 
 static mem_alloc_t read_regions[MAX_REGIONS];
-static uint read_region_size = 0;
+static uint64 read_region_size = 0;
 static mem_alloc_t write_regions[MAX_REGIONS];
-static uint write_region_size = 0;
-static uint written_count = 0;
+static uint64 write_region_size = 0;
+static uint64 written_count = 0;
 
 /********************************implementation******************************************/
 
@@ -169,7 +169,7 @@ void memdump_thread_exit(void* drcontext)
 /*************utility functions**********************/
 
 static bool is_mem_region_present(
-    mem_alloc_t* region, app_pc base_pc, uint size, uint region_size)
+    mem_alloc_t* region, app_pc base_pc, uint64 size, uint64 region_size)
 {
 
   int i = 0;
@@ -182,7 +182,7 @@ static bool is_mem_region_present(
 }
 
 static void add_to_mem_region(
-    mem_alloc_t* region, app_pc base_pc, uint size, uint* region_size)
+    mem_alloc_t* region, app_pc base_pc, uint64 size, uint64* region_size)
 {
 
   DR_ASSERT(*region_size < MAX_REGIONS);
@@ -192,7 +192,7 @@ static void add_to_mem_region(
 }
 
 static char*
-get_mem_dump_filename(app_pc base_pc, uint size, uint write, uint other_info)
+get_mem_dump_filename(app_pc base_pc, uint64 size, uint64 write, uint64 other_info)
 {
 
   char other_details[MAX_STRING_LENGTH];
@@ -206,7 +206,7 @@ get_mem_dump_filename(app_pc base_pc, uint size, uint write, uint other_info)
   return filename;
 }
 
-static void do_mem_dump(file_t file, uint base_pc, uint size)
+static void do_mem_dump(file_t file, uint64 base_pc, uint64 size)
 {
 
   uint64 read;
@@ -224,16 +224,16 @@ static void do_mem_dump(file_t file, uint base_pc, uint size)
   dr_global_free(mem_values, sizeof(byte) * size);
 }
 
-void clean_call_mem_information(instr_t* instr, app_pc mem_val, uint write)
+void clean_call_mem_information(instr_t* instr, app_pc mem_val, uint64 write)
 {
 
   void* drcontext = dr_get_current_drcontext();
   module_data_t* data = dr_lookup_module(instr_get_app_pc(instr));
-  uint offset;
+  uint64 offset;
 
   app_pc base_pc;
   size_t size;
-  uint prot;
+  uint64 prot;
   file_t dump_file;
   char* dump_filename;
 
@@ -267,7 +267,7 @@ void clean_call_mem_information(instr_t* instr, app_pc mem_val, uint write)
       dump_filename = get_mem_dump_filename(base_pc, size, write, 0);
       dump_file = dr_open_file(dump_filename, DR_FILE_WRITE_OVERWRITE);
       DEBUG_PRINT("%s dumping file\n", dump_filename);
-      do_mem_dump(dump_file, (uint)(uint64)base_pc, size);
+      do_mem_dump(dump_file, (uint64)(uint64)base_pc, size);
       DEBUG_PRINT("file dumped\n");
       dr_global_free(dump_filename, sizeof(char) * MAX_STRING_LENGTH);
       dr_close_file(dump_file);
@@ -362,7 +362,7 @@ static void post_func_cb(void* wrapcxt, void* user_data)
         write_regions[i].base_pc, write_regions[i].size, true, written_count);
     dump_file = dr_open_file(dump_filename, DR_FILE_WRITE_OVERWRITE);
     do_mem_dump(
-        dump_file, (uint)(uint64)write_regions[i].base_pc,
+        dump_file, (uint64)(uint64)write_regions[i].base_pc,
         write_regions[i].size);
     dr_global_free(dump_filename, sizeof(char) * MAX_STRING_LENGTH);
     dr_close_file(dump_file);

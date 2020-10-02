@@ -28,7 +28,7 @@ tail recursion not handled
 
 typedef struct _client_arg_t {
   char filter_filename[MAX_STRING_LENGTH];
-  uint filter_mode;
+  uint64 filter_mode;
 } client_arg_t;
 
 typedef struct {
@@ -423,7 +423,7 @@ void at_call_all(app_pc instr_addr, app_pc target_addr)
   module_data_t* module = dr_lookup_module(target_addr);
   per_thread_t* data
       = drmgr_get_tls_field(dr_get_current_drcontext(), tls_index);
-  uint offset;
+  uint64 offset;
   if (module != NULL) {
     offset = target_addr - module->start;
     stack_push(data->stack, (void*)(uint64)offset);
@@ -436,14 +436,14 @@ void at_ret_all(app_pc instr_addr, app_pc target_addr)
   module_data_t* module = dr_lookup_module(target_addr);
   per_thread_t* data
       = drmgr_get_tls_field(dr_get_current_drcontext(), tls_index);
-  uint offset;
+  uint64 offset;
   if (module != NULL) {
     offset = target_addr - module->start;
     stack_pop(data->stack);
   }
 }
 
-uint get_current_function_all(void* drcontext)
+uint64 get_current_function_all(void* drcontext)
 {
 
   per_thread_t* data = drmgr_get_tls_field(drcontext, tls_index);
@@ -452,7 +452,7 @@ uint get_current_function_all(void* drcontext)
 
     value = stack_peek(data->stack);
     if (value != NULL) {
-      return (uint)(uint64)value;
+      return (uint64)(uint64)value;
     } else {
       return 0;
     }

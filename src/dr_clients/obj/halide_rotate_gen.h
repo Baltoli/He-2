@@ -5,7 +5,7 @@
 #include <stdint.h>
 typedef struct buffer_t {
     uint64_t dev;
-    uint8_t* host;
+    uint648_t* host;
     int32_t extent[4];
     int32_t stride[4];
     int32_t min[4];

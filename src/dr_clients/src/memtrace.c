@@ -54,14 +54,14 @@ typedef struct {
   file_t outfile;
   uint64 num_refs;
 
-  uint stack_base;
-  uint stack_limit;
+  uint64 stack_base;
+  uint64 stack_limit;
 
 } per_thread_t;
 
 typedef struct _client_arg_t {
   char filter_filename[MAX_STRING_LENGTH];
-  uint filter_mode;
+  uint64 filter_mode;
   char output_folder[MAX_STRING_LENGTH];
   char extra_info[MAX_STRING_LENGTH];
 
@@ -169,8 +169,8 @@ void memtrace_thread_init(void* drcontext)
   int len;
   per_thread_t* data;
 
-  uint* stack_base;
-  uint* deallocation_stack;
+  uint64* stack_base;
+  uint64* deallocation_stack;
 
   int i = 0;
 
@@ -367,7 +367,7 @@ static void memtrace(void* drcontext)
   for (i = 0; i < num_refs; i++) {
     mdata = dr_lookup_module(mem_ref->pc);
     if (mdata != NULL) {
-      // if (((uint)mem_ref->addr > data->stack_base) || ((uint)mem_ref->addr <
+      // if (((uint64)mem_ref->addr > data->stack_base) || ((uint64)mem_ref->addr <
       // data->stack_limit)){
       dr_fprintf(
           data->outfile, "%x,%x,%d,%d," PFX "\n", mdata->start,

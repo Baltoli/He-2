@@ -29,7 +29,7 @@ static void pre_func_cb(void* wrapcxt, OUT void** user_data);
 
 typedef struct _client_arg_t {
   char filter_filename[MAX_STRING_LENGTH];
-  uint filter_mode;
+  uint64 filter_mode;
 } client_arg_t;
 
 typedef struct {
@@ -174,16 +174,16 @@ static void pre_func_cb_2(void* wrapcxt, OUT void** user_data)
   // input  - 0x08
   // output - 0x0c
 
-  uint input;
-  uint output;
-  uint width;
-  uint height;
-  uint other;
-  uint other_2;
+  uint64 input;
+  uint64 output;
+  uint64 width;
+  uint64 height;
+  uint64 other;
+  uint64 other_2;
   unsigned char* values;
   unsigned char* read_back;
-  uint written, read;
-  uint ok;
+  uint64 written, read;
+  uint64 ok;
   int i = 0;
   int j = 0;
 

@@ -33,8 +33,8 @@
 typedef struct _instr_trace_t {
 
 	static_info_t * static_info_instr;
-	uint mem_addr_src;						//src memory address
-	uint mem_addr_dst;						//dst memory address
+	uint64 mem_addr_src;						//src memory address
+	uint64 mem_addr_dst;						//dst memory address
 
 } instr_trace_t;
 
@@ -62,8 +62,8 @@ typedef struct {
 
 /* main global structure that will carry all the static information about the instruction */
 static static_info_t * global_static_info;
-static uint global_static_ptr;
-static uint global_static_array_size;
+static uint64 global_static_ptr;
+static uint64 global_static_array_size;
 
 static client_id_t client_id;
 static app_pc code_cache;
@@ -75,10 +75,10 @@ static bool opcode_missed[OPCODE_COUNT];
 
 typedef struct _client_arg_t {
 
-	uint filter_mode;
+	uint64 filter_mode;
 	char folder[MAX_STRING_LENGTH];
 	char in_filename[MAX_STRING_LENGTH];
-	uint static_info_size;
+	uint64 static_info_size;
 
 } client_arg_t;
 
@@ -316,7 +316,7 @@ void opnd_populator(void * drcontext, opnd_t opnd,operand_t * static_info, instr
 
 
 	reg_id_t reg;
-	uint reg_size;
+	uint64 reg_size;
 
 	*is_memory = false;
 
@@ -371,7 +371,7 @@ static static_info_t * static_info_instrumentation(void * drcontext, instr_t* in
 	/* working variables - need for intermediate computations */
 	opnd_t operand;
 	reg_id_t reg;
-	uint reg_size;
+	uint64 reg_size;
 	int opcode;
 	uchar is_memory;
 	
@@ -563,7 +563,7 @@ static void dynamic_info_instrumentation(void *drcontext, instrlist_t *ilist, in
     reg_id_t reg2 = DR_REG_XCX; /* reg2 must be ECX or RCX for jecxz */
     per_thread_t *data;
     app_pc pc;
-	uint i;
+	uint64 i;
 
     data = drmgr_get_tls_field(drcontext, tls_index);
 

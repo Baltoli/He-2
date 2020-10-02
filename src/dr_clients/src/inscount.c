@@ -21,7 +21,7 @@ static bool parse_commandline_args(const char* args);
 
 typedef struct _client_arg_t {
   char filter_filename[MAX_STRING_LENGTH];
-  uint filter_mode;
+  uint64 filter_mode;
 } client_arg_t;
 
 static client_arg_t* client_arg;
@@ -29,7 +29,7 @@ static module_t* head;
 
 /* we only have a global count */
 static uint64 global_count;
-static uint bbcount = 0;
+static uint64 bbcount = 0;
 /* A simple clean call that will be automatically inlined because it has only
  * one argument and contains no calls to other functions.
  */
@@ -37,7 +37,7 @@ static uint bbcount = 0;
 static file_t logfile;
 static char ins_pass_name[MAX_STRING_LENGTH];
 
-static void inscount(uint num_instrs) { global_count += num_instrs; }
+static void inscount(uint64 num_instrs) { global_count += num_instrs; }
 
 static bool parse_commandline_args(const char* args)
 {
@@ -119,7 +119,7 @@ dr_emit_flags_t inscount_bb_instrumentation(
 {
 
   instr_t* first = instrlist_first(bb);
-  uint num_instrs = 0;
+  uint64 num_instrs = 0;
 
   if (instr != first)
     return DR_EMIT_DEFAULT;

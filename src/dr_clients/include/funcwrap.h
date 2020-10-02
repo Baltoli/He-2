@@ -4,13 +4,13 @@
 #include "defines.h"
 #include "dr_api.h"
 
-extern uint is_within_func;
-extern uint thread_id_func;
+extern uint64 is_within_func;
+extern uint64 thread_id_func;
 
 /* typdefs */
 
 bool should_filter_func();
-bool should_filter_thread(uint thread_id);
+bool should_filter_thread(uint64 thread_id);
 
 /*instrumentation routines*/
 

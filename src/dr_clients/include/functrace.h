@@ -6,15 +6,15 @@
 /* typdefs */
 typedef struct _function_t {
 
-	uint start_addr;
-	uint end_addr;
+	uint64 start_addr;
+	uint64 end_addr;
 	bool is_recursive;
 
 } function_t;
 
 /* other public functions */
 function_t * get_current_function(void * drcontext);
-uint get_current_function_all(void * drcontext);
+uint64 get_current_function_all(void * drcontext);
 
 /*instrumentation routines*/
 

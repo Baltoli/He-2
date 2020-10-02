@@ -26,17 +26,17 @@ conventions used -
 typedef struct _call_bb_info_t {
 
 	char * module;
-	uint bb_addr;
-	uint freq;
+	uint64 bb_addr;
+	uint64 freq;
 
 } call_bb_info_t;
 
 //if the bb is a call target 
 typedef struct _call_target_info_t {
 
-	uint call_addr;
+	uint64 call_addr;
 	function_t * func;
-	uint freq;
+	uint64 freq;
 
 } call_target_info_t;
 
@@ -44,8 +44,8 @@ typedef struct _call_target_info_t {
 //basic structure to carry bb information
 typedef struct _bbinfo_t {
 
-	uint bb_addr;		/* offset from the start of the module */
-	uint freq;				/* number of times it gets executed */
+	uint64 bb_addr;		/* offset from the start of the module */
+	uint64 freq;				/* number of times it gets executed */
 	
 	call_bb_info_t * from_bbs;   /* bbs from which this bb was reached */
 	call_bb_info_t * to_bbs;	 /* to which basic blocks this bb connects to */
@@ -77,7 +77,7 @@ typedef struct _module_t {
 	struct _module_t * next; /* next module information */
 	char * module;  /* module full path */
 	bbinfo_t * bbs; 
-		uint size_bbs;
+		uint64 size_bbs;
 } module_t;
 
 
@@ -88,7 +88,7 @@ typedef struct _module_t {
 module_t * md_initialize();
 
 /* add a module to the list */
-void md_add_module(module_t * head, char * name, uint length_list_bbs);
+void md_add_module(module_t * head, char * name, uint64 length_list_bbs);
 /* add an element */
 bbinfo_t * md_add_bb_to_module(module_t * head, char * name, unsigned int addr, unsigned int length_list_bbs, bool extra_info);
 

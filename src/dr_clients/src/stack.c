@@ -1,7 +1,7 @@
 #include "stack.h"
 
 
-bool stack_init(stack_t ** stack, uint capacity, void (*free_data_func) (void *)){
+bool stack_init(stack_t ** stack, uint64 capacity, void (*free_data_func) (void *)){
 
 	*stack = (stack_t *)dr_global_alloc(sizeof(stack_t));
 
@@ -65,7 +65,7 @@ bool stack_push(stack_t * stack, void * data){
 /***********stack test routines*************/
 
 typedef struct _test_t {
-	uint value;
+	uint64 value;
 }test_t;
 
 void test_clean(void * data){

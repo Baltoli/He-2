@@ -35,7 +35,7 @@ static client_arg_t * client_arg;
 static module_t * head;
 static int tls_index;
 static bool file_registered = false;
-static uint wrap_thread_id = 0;
+static uint64 wrap_thread_id = 0;
 static bool dumped = 0;
 
 static file_t logfile;
@@ -153,16 +153,16 @@ bool should_filter_func(){
 	}
 }
 
-bool should_filter_thread(uint thread_id){
+bool should_filter_thread(uint64 thread_id){
 	return (wrap_thread_id == thread_id);
 }
 
-static void clean_call(uint pc){
+static void clean_call(uint64 pc){
 
 	DEBUG_PRINT("funcwrap - entered the pre-call clean call\n");
 	
 	if (dumped == 0){
-		dr_unlink_flush_region(0, ~((ptr_uint_t)0));
+		dr_unlink_flush_region(0, ~((ptr_uint64_t)0));
 		dumped = 1;
 	}
 	
@@ -236,7 +236,7 @@ static void post_func_cb(void * wrapcxt, void ** user_data){
 	DEBUG_PRINT("funcwrap - post_func_cb\n");
 	per_thread_t * data = drmgr_get_tls_field(dr_get_current_drcontext(), tls_index);
 	data->nesting--;
-	//dr_unlink_flush_region(0, ~((ptr_uint_t)0));
+	//dr_unlink_flush_region(0, ~((ptr_uint64_t)0));
 	DR_ASSERT(data->nesting >= 0); 
 	if (data->nesting == 0){
 		data->filter_func = false;

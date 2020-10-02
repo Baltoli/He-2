@@ -23,29 +23,29 @@ called_from[0].bb_addr will contain the length of call targets which called this
 //from which bbs was this called
 typedef struct _call_bb_info_t {
 	char * module;
-	uint start_addr;
-	uint freq;
+	uint64 start_addr;
+	uint64 freq;
 } call_bb_info_t;
 
 //if the bb is a call target 
 typedef struct _call_target_info_t {
 	char * module;
-	uint bb_addr;
-	uint call_point_addr;
-	uint freq;
+	uint64 bb_addr;
+	uint64 call_point_addr;
+	uint64 freq;
 } call_target_info_t;
 
 
 //basic structure to carry bb information
 typedef struct _bbinfo_t {
 	
-	uint start_addr;
-	uint freq;
-	uint size;
+	uint64 start_addr;
+	uint64 freq;
+	uint64 size;
 
-	uint is_call;
-	uint is_ret;
-	uint is_call_target;
+	uint64 is_call;
+	uint64 is_ret;
+	uint64 is_call_target;
 	
 	call_bb_info_t * from_bbs;
 	call_bb_info_t * to_bbs;
@@ -55,7 +55,7 @@ typedef struct _bbinfo_t {
 	
 	function_t * func;
 
-	uint func_addr;
+	uint64 func_addr;
 	bool printable;
 
 } bbinfo_t;
@@ -68,7 +68,7 @@ typedef struct _module_t {
 	char * module;
 	uint64 start_addr;
 	bbinfo_t * bbs;
-	uint size_bbs;
+	uint64 size_bbs;
 } module_t;
 
 
@@ -77,7 +77,7 @@ typedef struct _module_t {
 module_t * md_initialize();
 
 /* add a module to the list */
-bool md_add_module(module_t * head, char * name, uint length_list_bbs);
+bool md_add_module(module_t * head, char * name, uint64 length_list_bbs);
 /* add an element */
 bbinfo_t * md_add_bb_to_module(module_t * head, char * name, unsigned int addr, unsigned int length_list_bbs, bool extra_info);
 

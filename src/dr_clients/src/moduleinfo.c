@@ -37,7 +37,7 @@ static module_t * get_tail (module_t * head){
 }
 
 /* adds an address to the linear list with addresses */
-static bbinfo_t * add_bb_to_list (bbinfo_t * bb_list, unsigned int addr, bool extra_info, uint size){
+static bbinfo_t * add_bb_to_list (bbinfo_t * bb_list, unsigned int addr, bool extra_info, uint64 size){
 
 	DR_ASSERT(size > bb_list[0].start_addr);
 	
@@ -181,7 +181,7 @@ int md_get_module_position(module_t * head, char * name){
 }
 
 
-bool md_add_module(module_t * head, char * name, uint length_list_bbs){
+bool md_add_module(module_t * head, char * name, uint64 length_list_bbs){
 	
 	module_t * tail;
 

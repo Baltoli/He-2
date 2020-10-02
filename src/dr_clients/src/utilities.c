@@ -104,7 +104,7 @@ bool neg_filter_module(module_t* head, instr_t* instr)
   return !filter_module_level_from_list(head, instr);
 }
 
-bool filter_from_list(module_t* head, instr_t* instr, uint mode)
+bool filter_from_list(module_t* head, instr_t* instr, uint64 mode)
 {
 
   if (mode == FILTER_BB) {
@@ -126,7 +126,7 @@ bool filter_from_list(module_t* head, instr_t* instr, uint mode)
   return true;
 }
 
-bool filter_from_module_name(module_t* head, char* name, uint mode)
+bool filter_from_module_name(module_t* head, char* name, uint64 mode)
 {
 
   if (mode == FILTER_NEG_MODULE) {
@@ -139,7 +139,7 @@ bool filter_from_module_name(module_t* head, char* name, uint mode)
 /* need to code to dump PEB and TEB parameters - try to make it cross platform
  */
 
-bool get_offset_from_module(app_pc instr_addr, uint* offset)
+bool get_offset_from_module(app_pc instr_addr, uint64* offset)
 {
 
   module_data_t* data = dr_lookup_module(instr_addr);
@@ -155,7 +155,7 @@ bool get_offset_from_module(app_pc instr_addr, uint* offset)
 
 /* file name conventions adhereance */
 
-uint get_string_length(char* string)
+uint64 get_string_length(char* string)
 {
 
   int i = 0;
@@ -169,11 +169,11 @@ uint get_string_length(char* string)
 }
 
 /* this gets the filename according to the convention */
-uint populate_conv_filename(
+uint64 populate_conv_filename(
     char* dest, const char* folder, const char* name, const char* other_details)
 {
 
-  uint len;
+  uint64 len;
 
   len = dr_snprintf(
       dest, MAX_STRING_LENGTH, "%s\\%s_%s", folder, name,

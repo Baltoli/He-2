@@ -80,7 +80,7 @@ void nudge_event(void* drcontext, uint64 argument)
 
   nudge_instrument = argument;
   // dr_messagebox("nudged - %d\n", argument);
-  // dr_unlink_flush_region(0, ~((ptr_uint_t)0));
+  // dr_unlink_flush_region(0, ~((ptr_uint64_t)0));
 }
 
 DR_EXPORT void dr_init(client_id_t id)

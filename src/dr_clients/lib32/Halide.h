@@ -222,7 +222,7 @@ struct Type {
     bool is_int() const {return code == Int;}
 
     /** Is this type an unsigned integer type? */
-    bool is_uint() const {return code == UInt;}
+    bool is_uint64() const {return code == UInt;}
 
     /** Is this type an opaque handle type (void *) */
     bool is_handle() const {return code == Handle;}
@@ -328,17 +328,17 @@ struct type_of_helper<double> {
 };
 
 template<>
-struct type_of_helper<uint8_t> {
+struct type_of_helper<uint648_t> {
     operator Type() {return UInt(8);}
 };
 
 template<>
-struct type_of_helper<uint16_t> {
+struct type_of_helper<uint6416_t> {
     operator Type() {return UInt(16);}
 };
 
 template<>
-struct type_of_helper<uint32_t> {
+struct type_of_helper<uint6432_t> {
     operator Type() {return UInt(32);}
 };
 
@@ -992,7 +992,7 @@ typedef struct buffer_t {
     uint64_t dev;
 
     /** A pointer to the start of the data in main memory. */
-    uint8_t* host;
+    uint648_t* host;
 
     /** The size of the buffer in each dimension. */
     int32_t extent[4];
@@ -1181,10 +1181,10 @@ public:
     Buffer() : contents(NULL) {}
 
     EXPORT Buffer(Type t, int x_size = 0, int y_size = 0, int z_size = 0, int w_size = 0,
-                  uint8_t* data = NULL, const std::string &name = "");
+                  uint648_t* data = NULL, const std::string &name = "");
 
     EXPORT Buffer(Type t, const std::vector<int32_t> &sizes,
-                  uint8_t* data = NULL, const std::string &name = "");
+                  uint648_t* data = NULL, const std::string &name = "");
 
     EXPORT Buffer(Type t, const buffer_t *buf, const std::string &name = "");
 
@@ -3702,9 +3702,9 @@ class Triple;
 typedef signed char        int8_t;
 typedef short int          int16_t;
 typedef int                int32_t;
-typedef unsigned char      uint8_t;
-typedef unsigned short int uint16_t;
-typedef unsigned int       uint32_t;
+typedef unsigned char      uint648_t;
+typedef unsigned short int uint6416_t;
+typedef unsigned int       uint6432_t;
 
 #ifdef BITS_64
 typedef long long int           int64_t;
@@ -3719,7 +3719,7 @@ typedef int64_t ptrdiff_t;
 #ifdef BITS_32
 __extension__ typedef long long int          int64_t;
 __extension__ typedef unsigned long long int uint64_t;
-typedef uint32_t size_t;
+typedef uint6432_t size_t;
 typedef int32_t intptr_t;
 typedef int32_t ptrdiff_t;
 #define INT64_C(c)	c ## LL
@@ -3815,8 +3815,8 @@ extern void halide_error_varargs(void *user_context, const char *, ...);
  */
 //@{
 extern int halide_do_par_for(void *user_context,
-                             int (*f)(void *ctx, int, uint8_t *),
-                             int min, int size, uint8_t *closure);
+                             int (*f)(void *ctx, int, uint648_t *),
+                             int min, int size, uint648_t *closure);
 extern void halide_shutdown_thread_pool();
 //@}
 
@@ -3837,7 +3837,7 @@ extern void halide_free(void *user_context, void *ptr);
  * Cannot be replaced in JITted code at present.
  */
 extern int32_t halide_debug_to_file(void *user_context, const char *filename,
-                                    uint8_t *data, int32_t s0, int32_t s1, int32_t s2,
+                                    uint648_t *data, int32_t s0, int32_t s1, int32_t s2,
                                     int32_t s3, int32_t type_code,
                                     int32_t bytes_per_element);
 
@@ -3902,7 +3902,7 @@ extern int halide_shutdown_trace();
 /** Set the seed for the random number generator used by
  * random_float. Also clears all other internal state for the random
  * number generator. */
-extern void halide_set_random_seed(uint32_t seed);
+extern void halide_set_random_seed(uint6432_t seed);
 
 
 /** Release all data associated with the current GPU backend, in particular
@@ -3994,14 +3994,14 @@ struct JITCompiledModule {
 
     /** Set a custom parallel for loop launcher. See
      * \ref Func::set_custom_do_par_for */
-    typedef int (*HalideTask)(void *user_context, int, uint8_t *);
+    typedef int (*HalideTask)(void *user_context, int, uint648_t *);
     void (*set_custom_do_par_for)(int (*custom_do_par_for)(void *user_context, HalideTask,
-                                                           int, int, uint8_t *));
+                                                           int, int, uint648_t *));
 
     /** Set a custom do parallel task. See
      * \ref Func::set_custom_do_task */
     void (*set_custom_do_task)(int (*custom_do_task)(void *user_context, HalideTask,
-                                                     int, uint8_t *));
+                                                     int, uint648_t *));
 
     /** Set a custom trace function. See \ref Func::set_custom_trace. */
     typedef int (*TraceFn)(void *, const halide_trace_event *);
@@ -6534,7 +6534,7 @@ inline Expr abs(Expr a) {
     Type t = a.type();
     if (t.is_int()) {
         t.code = Type::UInt;
-    } else if (t.is_uint()) {
+    } else if (t.is_uint64()) {
         user_warning << "Warning: abs of an unsigned type is a no-op\n";
         return a;
     }
@@ -7102,19 +7102,19 @@ inline Expr operator>>(Expr x, Expr y) {
  *     lerp(cast<float>(x), cast<float>(y), cast<float>(w)) ->
  *       x * (1.0f - w) + y * w
  *
- *     lerp(cast<uint8_t>(x), cast<uint8_t>(y), cast<uint8_t>(w)) ->
- *       cast<uint8_t>(cast<uint8_t>(x) * (1.0f - cast<uint8_t>(w) / 255.0f) +
- *                     cast<uint8_t>(y) * cast<uint8_t>(w) / 255.0f + .5f)
+ *     lerp(cast<uint648_t>(x), cast<uint648_t>(y), cast<uint648_t>(w)) ->
+ *       cast<uint648_t>(cast<uint648_t>(x) * (1.0f - cast<uint648_t>(w) / 255.0f) +
+ *                     cast<uint648_t>(y) * cast<uint648_t>(w) / 255.0f + .5f)
  *
- *     // Note addition in Halide promoted uint8_t + int8_t to int16_t already,
+ *     // Note addition in Halide promoted uint648_t + int8_t to int16_t already,
  *     // the outer cast is added for clarity.
- *     lerp(cast<uint8_t>(x), cast<int8_t>(y), cast<uint8_t>(w)) ->
- *       cast<int16_t>(cast<uint8_t>(x) * (1.0f - cast<uint8_t>(w) / 255.0f) +
- *                     cast<int8_t>(y) * cast<uint8_t>(w) / 255.0f + .5f)
+ *     lerp(cast<uint648_t>(x), cast<int8_t>(y), cast<uint648_t>(w)) ->
+ *       cast<int16_t>(cast<uint648_t>(x) * (1.0f - cast<uint648_t>(w) / 255.0f) +
+ *                     cast<int8_t>(y) * cast<uint648_t>(w) / 255.0f + .5f)
  *
  *     lerp(cast<int8_t>(x), cast<int8_t>(y), cast<float>(w)) ->
  *       cast<int8_t>(cast<int8_t>(x) * (1.0f - cast<float>(w)) +
- *                    cast<int8_t>(y) * cast<uint8_t>(w))
+ *                    cast<int8_t>(y) * cast<uint648_t>(w))
  *
  * \endcode
  * */
@@ -7124,8 +7124,8 @@ inline Expr lerp(Expr zero_val, Expr one_val, Expr weight) {
     user_assert(weight.defined()) << "lerp with undefined weight";
 
     // We allow integer constants through, so that you can say things
-    // like lerp(0, cast<uint8_t>(x), alpha) and produce an 8-bit
-    // result. Note that lerp(0.0f, cast<uint8_t>(x), alpha) will
+    // like lerp(0, cast<uint648_t>(x), alpha) and produce an 8-bit
+    // result. Note that lerp(0.0f, cast<uint648_t>(x), alpha) will
     // produce an error, as will lerp(0.0f, cast<double>(x),
     // alpha). lerp(0, cast<float>(x), alpha) is also allowed and will
     // produce a float result.
@@ -7139,7 +7139,7 @@ inline Expr lerp(Expr zero_val, Expr one_val, Expr weight) {
     user_assert(zero_val.type() == one_val.type())
         << "Can't lerp between " << zero_val << " of type " << zero_val.type()
         << " and " << one_val << " of different type " << one_val.type() << "\n";
-    user_assert((weight.type().is_uint() || weight.type().is_float()))
+    user_assert((weight.type().is_uint64() || weight.type().is_float()))
         << "A lerp weight must be an unsigned integer or a float, but "
         << "lerp weight " << weight << " has type " << weight.type() << ".\n";
     user_assert((zero_val.type().is_float() || zero_val.type().width <= 32))
@@ -8127,10 +8127,10 @@ class Func {
      * realizing this function. May be NULL. */
     // @{
     int (*custom_do_par_for)(void *user_context,
-                             int (*)(void *, int, uint8_t *),
-                             int, int, uint8_t *);
-    int (*custom_do_task)(void *user_context, int (*)(void *, int, uint8_t *),
-                          int, uint8_t *);
+                             int (*)(void *, int, uint648_t *),
+                             int, int, uint648_t *);
+    int (*custom_do_task)(void *user_context, int (*)(void *, int, uint648_t *),
+                          int, uint648_t *);
     // @}
 
     /** The current custom tracing function. May be NULL. */
@@ -8144,7 +8144,7 @@ class Func {
     void (*custom_print)(void *user_context, const char *);
 
     /** The random seed to use for realizations of this function. */
-    uint32_t random_seed;
+    uint6432_t random_seed;
 
     /** Pointers to current values of the automatically inferred
      * arguments (buffers and scalars) used to realize this
@@ -8378,8 +8378,8 @@ public:
      * tasks. The default implementation does this:
      \code
      extern "C" int halide_do_task(void *user_context,
-                                   int (*f)(void *, int, uint8_t *),
-                                   int idx, uint8_t *state) {
+                                   int (*f)(void *, int, uint648_t *),
+                                   int idx, uint648_t *state) {
          return f(user_context, idx, state);
      }
      \endcode
@@ -8391,16 +8391,16 @@ public:
      * don't want to call this. See instead \ref Func::set_custom_do_par_for .
     */
     EXPORT void set_custom_do_task(
-        int (*custom_do_task)(void *, int (*)(void *, int, uint8_t *),
-                              int, uint8_t *));
+        int (*custom_do_task)(void *, int (*)(void *, int, uint648_t *),
+                              int, uint648_t *));
 
     /** Set a custom parallel for loop launcher. Useful if your app
      * already manages a thread pool. The default implementation is
      * equivalent to this:
      \code
      extern "C" int halide_do_par_for(void *user_context,
-                                      int (*f)(void *, int, uint8_t *),
-                                      int min, int extent, uint8_t *state) {
+                                      int (*f)(void *, int, uint648_t *),
+                                      int min, int extent, uint648_t *state) {
          int exit_status = 0;
          parallel for (int idx = min; idx < min+extent; idx++) {
              int job_status = halide_do_task(user_context, f, idx, state);
@@ -8419,8 +8419,8 @@ public:
      * version.
      */
     EXPORT void set_custom_do_par_for(
-        int (*custom_do_par_for)(void *, int (*)(void *, int, uint8_t *), int,
-                                 int, uint8_t *));
+        int (*custom_do_par_for)(void *, int (*)(void *, int, uint648_t *), int,
+                                 int, uint648_t *));
 
     /** Set custom routines to call when tracing is enabled. Call this
      * on the output Func of your pipeline. This then sets custom
@@ -8455,8 +8455,8 @@ public:
      * of the first four dimensions.  Dimensions beyond four are
      * folded into the fourth.  Then, a fifth 32-bit int giving the
      * data type of the function. The typecodes are given by: float =
-     * 0, double = 1, uint8_t = 2, int8_t = 3, uint16_t = 4, int16_t =
-     * 5, uint32_t = 6, int32_t = 7, uint64_t = 8, int64_t = 9. The
+     * 0, double = 1, uint648_t = 2, int8_t = 3, uint6416_t = 4, int16_t =
+     * 5, uint6432_t = 6, int32_t = 7, uint64_t = 8, int64_t = 9. The
      * data follows the header, as a densely packed array of the given
      * size and the given type. If given the extension .tmp, this file
      * format can be natively read by the program ImageStack. */
@@ -10567,19 +10567,19 @@ namespace Halide {
  * in your object file. They are declared here in case you want to do
  * something non-default with them. */
 namespace IntegerDivideTable {
-EXPORT Image<uint8_t> integer_divide_table_u8();
-EXPORT Image<uint8_t> integer_divide_table_s8();
-EXPORT Image<uint16_t> integer_divide_table_u16();
-EXPORT Image<uint16_t> integer_divide_table_s16();
-EXPORT Image<uint32_t> integer_divide_table_u32();
-EXPORT Image<uint32_t> integer_divide_table_s32();
+EXPORT Image<uint648_t> integer_divide_table_u8();
+EXPORT Image<uint648_t> integer_divide_table_s8();
+EXPORT Image<uint6416_t> integer_divide_table_u16();
+EXPORT Image<uint6416_t> integer_divide_table_s16();
+EXPORT Image<uint6432_t> integer_divide_table_u32();
+EXPORT Image<uint6432_t> integer_divide_table_s32();
 }
 
 
 /** Integer division by small values can be done exactly as multiplies
  * and shifts. This function does integer division for numerators of
  * various integer types (8, 16, 32 bit signed and unsigned)
- * numerators and uint8 denominators. The type of the result is the
+ * numerators and uint648 denominators. The type of the result is the
  * type of the numerator. The unsigned version is faster than the
  * signed version, so cast the numerator to an unsigned int if you
  * know it's positive.
@@ -10593,7 +10593,7 @@ EXPORT Image<uint32_t> integer_divide_table_s32();
  * native integer division.
  *
  * Also, this routine treats division by zero as division by
- * 256. I.e. it interprets the uint8 divisor as a number from 1 to 256
+ * 256. I.e. it interprets the uint648 divisor as a number from 1 to 256
  * inclusive.
  */
 EXPORT Expr fast_integer_divide(Expr numerator, Expr denominator);
