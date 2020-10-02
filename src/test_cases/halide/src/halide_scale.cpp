@@ -1,17 +1,17 @@
 #include <Halide.h>
 using namespace Halide;
 
-int main(int argc, char **argv) {
+int main(int argc, char** argv)
+{
+  ImageParam input(UInt(8), 2);
+  Func output("halide_scale");
+  Var x("x"), y("y");
 
-    ImageParam input(UInt(8), 2);
-    Func output("output");
-    Var x("x"), y("y");
-    
-	uint8_t scale = 2;
+  uint8_t scale = 2;
 
-    // The algorithm
-    output(x,y) = input(x*scale,y*scale);
-    output.compile_to_file("halide_scale_gen", input); 
+  // The algorithm
+  output(x, y) = input(x * scale, y * scale);
+  output.compile_to_file("halide_scale_gen", {input});
 
-    return 0;
+  return 0;
 }

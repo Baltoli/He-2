@@ -1,37 +1,37 @@
-#include <windows.h>
-#include <math.h>
-#include <stdint.h>
-#include <stdio.h>
+#include "halide_snakes_gen.h"
+
+#include <common/imageinfo.h>
+
+#include <cmath>
+#include <cstdint>
+#include <cstdio>
 #include <string>
 
-#include "image_manipulation.h"
-
-extern "C" {
-#include "halide_snakes_gen.h"
-}
+using namespace Halide;
 
 uint8_t scale = 2;
 
-Image<uint8_t> halide_function(Image<uint8_t> in) {
+Buffer<uint8_t> halide_function(Buffer<uint8_t> in)
+{
 
-	Image<uint8_t> out(in.width() / scale, in.height() / scale);
+  Buffer<uint8_t> out(in.width() / scale, in.height() / scale);
 
-	// Call it once to initialize the halide runtime stuff
-	halide_snakes_gen(in, out);
+  // Call it once to initialize the halide runtime stuff
+  halide_snakes(*in.get(), *out.get());
 
-	return out;
+  return out;
 }
 
-int main(int argc, char **argv) {
+int main(int argc, char** argv)
+{
+  auto token = initialize_image_subsystem();
 
-	ULONG_PTR token = initialize_image_subsystem();
+  std::string name(argv[1]);
+  Buffer<uint8_t> input = load_halide_image<uint8_t>(argv[1]);
+  Buffer<uint8_t> output = halide_function(input);
+  save_halide_image<uint8_t>(argv[2], output);
 
-	string name(argv[1]);
-	Image<uint8_t> input = load_image<uint8_t>(argv[1]);
-	Image<uint8_t> output = halide_function(input);
-	save_image<uint8_t>(argv[2], output);
+  shutdown_image_subsystem(token);
 
-	shutdown_image_subsystem(token);
-
-	return 0;
+  return 0;
 }

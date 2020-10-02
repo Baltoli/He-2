@@ -158,11 +158,10 @@ endmacro()
 
 build_app(halide_blur_naive)
 build_app(halide_blur_hvscan)
-
-#build_app(halide_rotate)
-#build_app(halide_wrap)
-#build_app(halide_scale)
-#build_app(halide_snakes)   #not implemented
+build_app(halide_rotate)
+build_app(halide_wrap)
+build_app(halide_scale)
+build_app(halide_snakes)   #not implemented
 
 ##input dependent filters
 #build_app(halide_threshold)
