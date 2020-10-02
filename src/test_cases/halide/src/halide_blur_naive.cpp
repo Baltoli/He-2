@@ -7,7 +7,7 @@ using namespace Halide;
 int main()
 {
   ImageParam input(UInt(8), 2);
-  Func output("output"), clamped("clamped");
+  Func output("halide_blur_naive"), clamped("clamped");
   Var x("x"), y("y");
 
   clamped(x, y) = cast<uint16_t>(

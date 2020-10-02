@@ -63,8 +63,6 @@
 #		NO_DEFAULT_PATH)
 #include_directories("${HALIDE_DIRECTORY}")
 
-find_package(Halide REQUIRED)
-
 ##this is specific for each build
 
 macro(build_app name)
@@ -107,7 +105,8 @@ macro(build_app name)
           PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
         target_link_libraries(${name}_test
-          Halide::Halide
+          dl pthread z
+          Halide::Runtime
           common)
 	
 #	#halide app build
