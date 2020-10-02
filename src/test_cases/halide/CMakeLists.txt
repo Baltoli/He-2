@@ -67,15 +67,20 @@ find_package(Halide REQUIRED)
 
 ##this is specific for each build
 
-#macro(build_app name)
-
+macro(build_app name)
 #	#set the cmake build output directory for intermediate filters
 #	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/output_halide_${TYPE})
 #	change_config()
 	
 #	#halide filter build
 #	#builds the target for compiling the code and then running the output / also copies the Halide libraries
-#	halide_project(${name} ${HALIDE} "${HALIDE_FILTER_DIRECTORY}/${name}.cpp")
+
+	add_executable(${name}
+          src/${name}.cpp)
+
+        target_link_libraries(${name}
+          Halide::Halide)
+
 #	add_custom_command(TARGET ${name} PRE_BUILD
 #                   COMMAND ${CMAKE_COMMAND} -E copy_directory
 #                       ${HALIDE_DIRECTORY} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
@@ -84,11 +89,26 @@ find_package(Halide REQUIRED)
 #				   COMMAND ${name}
 #                   COMMENT "Building ${name}...")
 	
-#	# add_custom_command(OUTPUT "${CMAKE_SOURCE_DIR}/output_halide_${TYPE}/${name}_gen.o"
-#                   # COMMAND cd ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
-#				   # COMMAND ${name}
-#				   # DEPENDS ${name}.cpp
-#                   # COMMENT "Building ${name}...")
+	add_custom_command(
+          OUTPUT  ${name}_gen.o
+	  COMMAND ${name}
+	  DEPENDS ${name}
+        )
+
+        add_custom_target(${name}_gen
+          ALL DEPENDS ${name}_gen.o
+        )
+
+        add_executable(${name}_test
+          ${name}_gen.o
+          test/${name}_test.cpp)
+
+        target_include_directories(${name}_test
+          PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
+        target_link_libraries(${name}_test
+          Halide::Halide
+          common)
 	
 #	#halide app build
 #	include_directories(${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
@@ -113,8 +133,7 @@ find_package(Halide REQUIRED)
 #	endif()
 	
 #	#add_dependencies(${name}_test ${name})
-	
-#endmacro(build_app)
+endmacro()
 
 
 #macro(build_jit name)
@@ -137,7 +156,9 @@ find_package(Halide REQUIRED)
 
 ######################AOT compiled targets for testing features############################
 ##the basic filters
-#build_app(halide_blur_naive)
+
+build_app(halide_blur_naive)
+
 #build_app(halide_blur_hvscan)
 #build_app(halide_rotate)
 #build_app(halide_wrap)
