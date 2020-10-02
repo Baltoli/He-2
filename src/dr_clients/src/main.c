@@ -386,7 +386,8 @@ static void setupInsPasses()
   ins_pass[7].thread_init = memdump_thread_init;
   ins_pass[7].thread_exit = memdump_thread_exit;
   ins_pass[7].process_exit = memdump_exit_event;
-  ins_pass[7].module_load = memdump_module_load;
+  ins_pass[7].module_load
+      = (void (*)(void*, module_data_t const*, bool))memdump_module_load;
   ins_pass[7].module_unload = NULL;
 
   // ins pass 9 - funcreplace
@@ -401,7 +402,8 @@ static void setupInsPasses()
   ins_pass[8].thread_init = funcreplace_thread_init;
   ins_pass[8].thread_exit = funcreplace_thread_exit;
   ins_pass[8].process_exit = funcreplace_exit_event;
-  ins_pass[8].module_load = funcreplace_module_load;
+  ins_pass[8].module_load
+      = (void (*)(void*, module_data_t const*, bool))funcreplace_module_load;
   ins_pass[8].module_unload = NULL;
 
   // ins pass 10 - misc

@@ -235,7 +235,7 @@ static void pre_func_cb(void* wrapcxt, OUT void** user_data)
   data->nesting++;
 }
 
-static void post_func_cb(void* wrapcxt, void** user_data)
+static void post_func_cb(void* wrapcxt, void* user_data)
 {
   DEBUG_PRINT("funcwrap - post_func_cb\n");
   per_thread_t* data
