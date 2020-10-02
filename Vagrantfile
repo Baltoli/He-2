@@ -42,6 +42,8 @@ Vagrant.configure("2") do |config|
     apt-get install -y \
       build-essential \
       cmake \
+      libjpeg-dev \
+      libpng-dev \
       ninja-build \
       wget
   SHELL
