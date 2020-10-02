@@ -60,7 +60,7 @@ void save_image(bitmap* image, const char* file)
 
 bitmap* open_image(const char* filename)
 {
-  DEBUG_PRINT(("opening image - %s\n", filename), 3);
+  /* DEBUG_PRINT(("opening image - %s\n", filename), 3); */
 
   UNIMPLEMENTED();
 
