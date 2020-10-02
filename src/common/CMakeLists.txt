@@ -8,4 +8,5 @@ target_include_directories(common
 
 target_link_libraries(common
   Halide::Halide
+  Halide::ImageIO
   stb)

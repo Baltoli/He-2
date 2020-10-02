@@ -10,6 +10,7 @@
 #include <string>
 
 using namespace Halide;
+using namespace Halide::Tools;
 
 Buffer<uint8_t> halide_function(Buffer<uint8_t> in)
 {
@@ -27,9 +28,10 @@ int main(int argc, char** argv)
   auto token = initialize_image_subsystem();
 
   std::string name(argv[1]);
-  Buffer<uint8_t> input = load_halide_image<uint8_t>(argv[1]);
+  Buffer<uint8_t> input = load_image(argv[1]);
+  /* input.slice(2, 1); */
   Buffer<uint8_t> output = halide_function(input);
-  save_halide_image<uint8_t>(argv[2], output);
+  save_image(output, argv[2]);
 
   shutdown_image_subsystem(token);
 

@@ -4,6 +4,7 @@
 /* #include <common/static_image.h> */
 
 #include <Halide.h>
+#include <halide_image_io.h>
 
 #include <algorithm>
 #include <cstdint>
@@ -14,71 +15,6 @@ Halide::Buffer<T> load_halide_image(char* filename);
 
 template <typename T>
 void save_halide_image(char* filename, Halide::Buffer<T> im);
-
-/******copied from image_io.h **********/
-
-// Convert to u8
-inline void convert(uint8_t in, uint8_t& out) { out = in; }
-inline void convert(uint16_t in, uint8_t& out) { out = in >> 8; }
-inline void convert(uint32_t in, uint8_t& out) { out = in >> 24; }
-inline void convert(int8_t in, uint8_t& out) { out = in; }
-inline void convert(int16_t in, uint8_t& out) { out = in >> 8; }
-inline void convert(int32_t in, uint8_t& out) { out = in >> 24; }
-inline void convert(float in, uint8_t& out) { out = (uint8_t)(in * 255.0f); }
-inline void convert(double in, uint8_t& out) { out = (uint8_t)(in * 255.0f); }
-
-// Convert to u16
-inline void convert(uint8_t in, uint16_t& out) { out = in << 8; }
-inline void convert(uint16_t in, uint16_t& out) { out = in; }
-inline void convert(uint32_t in, uint16_t& out) { out = in >> 16; }
-inline void convert(int8_t in, uint16_t& out) { out = in << 8; }
-inline void convert(int16_t in, uint16_t& out) { out = in; }
-inline void convert(int32_t in, uint16_t& out) { out = in >> 16; }
-inline void convert(float in, uint16_t& out)
-{
-  out = (uint16_t)(in * 65535.0f);
-}
-inline void convert(double in, uint16_t& out)
-{
-  out = (uint16_t)(in * 65535.0f);
-}
-
-// Convert from u8
-inline void convert(uint8_t in, uint32_t& out) { out = in << 24; }
-inline void convert(uint8_t in, int8_t& out) { out = in; }
-inline void convert(uint8_t in, int16_t& out) { out = in << 8; }
-inline void convert(uint8_t in, int32_t& out) { out = in << 24; }
-inline void convert(uint8_t in, float& out) { out = in / 255.0f; }
-inline void convert(uint8_t in, double& out) { out = in / 255.0f; }
-
-// Convert from u16
-inline void convert(uint16_t in, uint32_t& out) { out = in << 16; }
-inline void convert(uint16_t in, int8_t& out) { out = in >> 8; }
-inline void convert(uint16_t in, int16_t& out) { out = in; }
-inline void convert(uint16_t in, int32_t& out) { out = in << 16; }
-inline void convert(uint16_t in, float& out) { out = in / 65535.0f; }
-inline void convert(uint16_t in, double& out) { out = in / 65535.0f; }
-
-inline bool ends_with_ignore_case(std::string a, std::string b)
-{
-  if (a.length() < b.length()) {
-    return false;
-  }
-  std::transform(a.begin(), a.end(), a.begin(), ::tolower);
-  std::transform(b.begin(), b.end(), b.begin(), ::tolower);
-  return a.compare(a.length() - b.length(), b.length(), b) == 0;
-}
-
-inline int is_little_endian()
-{
-  int value = 1;
-  return ((char*)&value)[0] == 1;
-}
-
-#define SWAP_ENDIAN16(little_endian, value)                                    \
-  if (little_endian) {                                                         \
-    (value) = (((value)&0xff) << 8) | (((value)&0xff00) >> 8);                 \
-  }
 
 struct image_t {
   uint32_t height;
