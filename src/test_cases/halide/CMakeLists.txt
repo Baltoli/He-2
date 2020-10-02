@@ -63,7 +63,7 @@
 #		NO_DEFAULT_PATH)
 #include_directories("${HALIDE_DIRECTORY}")
 
-find_package(Halide)
+find_package(Halide REQUIRED)
 
 ##this is specific for each build
 
