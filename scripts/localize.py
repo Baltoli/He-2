@@ -21,11 +21,18 @@ def get_coverage_files(executable):
     output_folder = os.environ.get('EXALGO_OUTPUT_FOLDER')
     filter_folder = os.environ.get('EXALGO_FILTER_FOLDER')
 
-    files = glob.glob(output_folder + '/drcov.' + executable + '*')
+    basename = os.path.basename(executable)
+    glob_expr = os.path.join(output_folder, f'drcov.{basename}*')
+
+    files = glob.glob(glob_expr)
     entries = get_sorted_on_time(files)
     entries = [x[1] for x in entries]
     entries = entries[::-1]
-    return [entries[0],entries[1],filter_folder + '\\' + diff_file_name]
+    return [
+        entries[0],
+        entries[1],
+        os.path.join(filter_folder, diff_file_name)
+    ]
 
 
 '''
