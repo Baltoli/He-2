@@ -32,7 +32,7 @@ def parse_arguments():
         optional.add_argument('--buildex_args','-ba', help='specifies overriding optional arguments to buildex in double quotes')
        
         args = parser.parse_args()
-        print args
+        print(args)
         return args
 
 def delete_output():
@@ -43,8 +43,8 @@ def delete_output():
                 if os.path.isfile(file_path):
                     os.unlink(file_path)
                 #elif os.path.isdir(file_path): shutil.rmtree(file_path)
-            except Exception, e:
-                print e
+            except Exception as e:
+                print(e)
 
 def main():
 

@@ -29,14 +29,6 @@ def run_buildex(executable, in_image, out_image, debug, debug_level, dump, opts)
         for arg in args:
                 command += ' ' + arg
         command += ' ' + opts
-        print command
+        print(command)
         p = subprocess.Popen(command)
         p.communicate()
-                 
-                 
-        
-        
-                
-        
-        
-    
