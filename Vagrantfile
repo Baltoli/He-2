@@ -45,6 +45,7 @@ Vagrant.configure("2") do |config|
       libjpeg-dev \
       libpng-dev \
       ninja-build \
+      python3 \
       wget
   SHELL
 
