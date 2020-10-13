@@ -4,9 +4,9 @@ import common
 
 
 def get_drclient_command(client_args,exec_args):
-        dr32 = os.environ.get('DYNAMORIO_32_RELEASE_HOME')
-        dr_path = dr32 + '/bin32/drrun.exe'
-        command = dr_path + ' -root ' + dr32 + ' -syntax_intel -c exalgo.dll ' + client_args + ' -- ' + exec_args
+        dr_home = os.environ.get('DYNAMORIO_HOME')
+        dr_path = dr_home + '/bin64/drrun'
+        command = dr_path + ' -root ' + dr_home + ' -syntax_intel -c libexalgo.so ' + client_args + ' -- ' + exec_args
         return command
 
 def get_filter_mode(filter_string):
@@ -76,11 +76,9 @@ def run_drclients(path,executable,args,
 
         client_args = create_client_args(clients,executable,filter_file,filter_mode,instrace_mode,input_image,debug)
         dr_client_command = get_drclient_command(client_args,path + ' ' + common.xstr(args))
+        print(dr_client_command)
 
         parent_folder = os.environ.get('EXALGO_PARENT_FOLDER')
-        os.chdir(parent_folder + '/dr_clients/build32/bin')
-        p = subprocess.Popen(dr_client_command)
-        p.communicate()
-        
-        
-        
+        dr_path = os.path.join(parent_folder, 'build', 'dr_clients')
+        os.chdir(dr_path)
+        subprocess.run(dr_client_command.split(' '))
