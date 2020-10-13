@@ -164,7 +164,7 @@ build_app(halide_scale)
 build_app(halide_snakes)   #not implemented
 
 ##input dependent filters
-#build_app(halide_threshold)
+build_app(halide_threshold)
 #build_app(halide_weights)  #not implemented
 
 ##indirection

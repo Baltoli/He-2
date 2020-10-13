@@ -1,37 +1,37 @@
-#include <windows.h>
-#include <math.h>
-#include <stdint.h>
-#include <stdio.h>
+#include "halide_threshold_gen.h"
+
+#include <common/imageinfo.h>
+
+#include <cmath>
+#include <cstdint>
+#include <cstdio>
 #include <string>
 
-#include "image_manipulation.h"
-
-extern "C" {
-#include "halide_threshold_gen.h"
-}
+using namespace Halide;
+using namespace Halide::Tools;
 
 uint8_t scale = 2;
 
-Image<uint8_t> halide_function(Image<uint8_t> in) {
+Buffer<uint8_t> halide_function(Buffer<uint8_t> in)
+{
+  Buffer<uint8_t> out(in.width(), in.height());
 
-	Image<uint8_t> out(in.width(), in.height());
+  // Call it once to initialize the halide runtime stuff
+  halide_threshold(*in.get(), *out.get());
 
-	// Call it once to initialize the halide runtime stuff
-	halide_threshold_gen(in, out);
-
-	return out;
+  return out;
 }
 
-int main(int argc, char **argv) {
+int main(int argc, char** argv)
+{
+  auto token = initialize_image_subsystem();
 
-	ULONG_PTR token = initialize_image_subsystem();
+  std::string name(argv[1]);
+  Buffer<uint8_t> input = load_image(argv[1]);
+  Buffer<uint8_t> output = halide_function(input);
+  save_image(output, argv[2]);
 
-	string name(argv[1]);
-	Image<uint8_t> input = load_image<uint8_t>(argv[1]);
-	Image<uint8_t> output = halide_function(input);
-	save_image<uint8_t>(argv[2], output);
+  shutdown_image_subsystem(token);
 
-	shutdown_image_subsystem(token);
-
-	return 0;
+  return 0;
 }
