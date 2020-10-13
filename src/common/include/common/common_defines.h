@@ -47,7 +47,8 @@ extern bool debug_tree;
 
 #define UNIMPLEMENTED()                                                        \
   do {                                                                         \
-    fprintf(stderr, "Unimplemented code reached: %s:%d", __FILE__, __LINE__);  \
+    fprintf(                                                                   \
+        stderr, "Unimplemented code reached: %s:%d\n", __FILE__, __LINE__);    \
     std::exit(1);                                                              \
   } while (0);
 

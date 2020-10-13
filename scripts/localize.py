@@ -56,16 +56,19 @@ This function gets the code coverage diffs
 '''
 def run_code_diff(executable, pathname):
     files = get_coverage_files(executable)
-    os.chdir(parent_folder + '/preprocess/code_diff/build32/bin')
-    print('Now running the code diff tool')
-    command = 'code_diff.exe';
-    command += ' -first ' + files[0]
-    command += ' -second ' + files[1]
-    command += ' -output ' + files[2]
-    command += ' -exec ' + pathname
-    p = subprocess.Popen(command)
-    p.communicate()
 
+    build_dir = os.path.join(parent_folder, 'build', 'preprocess', 'code_diff')
+    executable = os.path.join(build_dir, 'code_diff')
+
+    command = [
+        executable,
+        '-first', files[0],
+        '-second', files[1],
+        '-output', files[2],
+        '-exec', pathname
+    ]
+
+    subprocess.run(command)
 
 '''
 this function invokes the executable under profiling
