@@ -53,7 +53,8 @@ def main():
         #populating some variables
         exec_name = common.get_executable_name(args.path)
         pathname = args.exe
-        path = '\"' + args.path + '\"'
+        path = args.path
+        # path = '\"' + args.path + '\"'
 
         total_size = '0'
         dump = '1'

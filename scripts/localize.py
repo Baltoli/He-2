@@ -32,15 +32,16 @@ def get_coverage_files(executable):
 This function runs the application under code coverage DynamoRIO tool
 '''
 def run_code_coverage(executable, args):
-    os.chdir(parent_folder + '/preprocess/code_cov')
-    print('Please run the application without the filter')
-    print('code_cov_no_prep.bat m32 ' + executable + ' ' + args)
-    p = subprocess.Popen('code_cov_no_prep.bat m32 ' + executable + ' ' + args)
-    p.communicate()
-    print('Now please run the application with the filter')
-    print('code_cov_no_prep.bat m32 ' + executable + ' ' + args)
-    p = subprocess.Popen('code_cov_no_prep.bat m32 ' + executable + ' ' + args)
-    p.communicate()
+    scripts_dir = os.path.join(parent_folder, 'scripts')
+    exe = os.path.join(scripts_dir, 'code_cov_no_prep.sh')
+
+    # The original code ran the executable twice - not sure why. There isn't any
+    # way to switch the filter on or off in the original code, so I'm unsure how
+    # this works at the moment. Should there be a way above this code to switch
+    # flags on or off to run the filter?
+
+    subprocess.run([exe, executable, args])
+    subprocess.run([exe, executable, args])
 
 
 '''

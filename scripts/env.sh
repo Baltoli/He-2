@@ -10,3 +10,5 @@ export EXALGO_FILTER_FOLDER=$ROOT_DIR/generated_files/filter_files
 export EXALGO_LOG_FOLDER=$ROOT_DIR/generated_files/log
 export EXALGO_IMAGE_FOLDER=$ROOT_DIR/images
 export EXALGO_TEST_FOLDER=$ROOT_DIR/tests
+
+export DYNAMORIO_HOME=$HOME/dynamorio
