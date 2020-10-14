@@ -82,15 +82,19 @@ def run_profiling(path, executable, args, debug, in_image):
 this function runs the filter funcs to get the localized filter
 '''
 def run_filter_funcs(executable, in_image, debug, debug_level, total_size):
-    os.chdir(parent_folder + '/preprocess/filter_funcs/build32/bin')
-    args = ['-exec ' + executable,
-            '-in_image ' + in_image,
-            '-out_image ' + in_image,
-            '-debug ' + common.boolstr(debug),
-            '-debug_level ' + debug_level,
-            '-mode 1',
-            '-total_size ' + total_size,
-            '-threshold 80']
+    filter_dir = os.path.join(parent_folder, 'build', 'preprocess', 'filter_funcs')
+    filter_exe = os.path.join(filter_dir, 'filter')
+    command = [
+        filter_exe,
+        '-exec', executable,
+        '-in_image', in_image,
+        '-out_image', in_image,
+        '-debug', common.boolstr(debug),
+        '-debug_level', debug_level,
+        '-mode 1',
+        '-total_size', total_size,
+        '-threshold 80'
+    ]
 
     command = 'filter.exe '
     for arg in args:
