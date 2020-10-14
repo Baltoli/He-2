@@ -70,6 +70,7 @@ def run_code_diff(executable, pathname):
 
     subprocess.run(command)
 
+
 '''
 this function invokes the executable under profiling
 '''
@@ -77,7 +78,8 @@ def run_profiling(path, executable, args, debug, in_image):
     filter_folder = os.environ.get('EXALGO_FILTER_FOLDER')
     drclient.run_drclients(path, executable, args, debug, 'profile,memtrace', 
             'bb',filter_folder + '\\' + diff_file_name, in_image, '')
-        
+
+
 '''
 this function runs the filter funcs to get the localized filter
 '''
@@ -96,9 +98,4 @@ def run_filter_funcs(executable, in_image, debug, debug_level, total_size):
         '-threshold 80'
     ]
 
-    command = 'filter.exe '
-    for arg in args:
-        command += arg + ' '
-
-    p = subprocess.Popen(command)
-    p.communicate()
+    subprocess.run(command)
