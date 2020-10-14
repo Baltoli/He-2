@@ -10,10 +10,14 @@ this function invokes the executable under instruction tracing
 '''
 def run_instrace(path, executable, args, debug, in_image):
         filter_folder = os.environ.get('EXALGO_FILTER_FOLDER')
+        exe_basename = os.path.basename(executable)
+
+        filter_path = os.path.join(filter_folder, f'filter_{exe_basename}.log')
+
         drclient.run_drclients(path, executable, args, debug, 'funcwrap,instrace,memdump',
-                      'func',filter_folder + '\\filter_' + executable + '.log' , in_image, 'instrace')
+                      'func', filter_path, in_image, 'instrace')
         drclient.run_drclients(path, executable, args, debug, 'funcwrap,instrace',
-                      'func',filter_folder + '\\filter_' + executable + '.log' , in_image, 'ins_distrace')
+                      'func', filter_path, in_image, 'ins_distrace')
 
         
 def run_buildex(executable, in_image, out_image, debug, debug_level, dump, opts):
