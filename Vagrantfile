@@ -21,6 +21,8 @@ HALIDE_URL = "#{HALIDE_RELEASES_URL}/v#{HALIDE_VERSION}/#{HALIDE_TAR}"
 WGET_CACHE = "/var/cache/wget"
 
 Vagrant.configure("2") do |config|
+  config.ssh.forward_agent = true
+
   config.vm.box = "generic/ubuntu2004"
   config.vm.synced_folder ".", "/vagrant"
 
@@ -42,6 +44,7 @@ Vagrant.configure("2") do |config|
     apt-get install -y \
       build-essential \
       cmake \
+      git \
       libjpeg-dev \
       libpng-dev \
       ninja-build \
@@ -69,5 +72,14 @@ Vagrant.configure("2") do |config|
 
     touch $HOME/env.sh
     echo 'export HALIDE_ROOT=$HOME/halide' >> $HOME/env.sh
+  SHELL
+
+  config.vm.provision "shell", privileged: false, inline: <<-SHELL
+    git clone git@github.com:mob-group/grey-benchmarks.git
+    cd grey-benchmarks
+    mkdir build
+    cd build
+    cmake -GNinja ..
+    ninja
   SHELL
 end
