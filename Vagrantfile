@@ -75,11 +75,13 @@ Vagrant.configure("2") do |config|
   SHELL
 
   config.vm.provision "shell", privileged: false, inline: <<-SHELL
+    mkdir -p $HOME/bench-tools
+
     git clone git@github.com:mob-group/grey-benchmarks.git
     cd grey-benchmarks
     mkdir build
     cd build
-    cmake -GNinja ..
-    ninja
+    cmake -GNinja -DCMAKE_INSTALL_PREFIX=$HOME/bench-tools ..
+    ninja install
   SHELL
 end
