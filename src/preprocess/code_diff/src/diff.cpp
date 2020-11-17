@@ -245,10 +245,13 @@ returnParse_t* parseFiles(ifstream& file)
 
   // DRCOV first line
   getline(file, line);
+  getline(file, line);
 
   // need to get the number of modules
-  getline(file, line, ' ');
-  getline(file, line, ' ');
+  for (int i = 0; i < 5; ++i) {
+    getline(file, line, ' ');
+  }
+
   getline(file, line);
 
   uint64 noOfModules = atoi(line.c_str());
@@ -268,6 +271,7 @@ returnParse_t* parseFiles(ifstream& file)
     returnVal->locateOriginals[i] = -1;
   }
 
+  getline(file, line);
   for (uint64 i = 0; i < noOfModules; i++) {
     getline(file, line);
     string moduleName = getModule(line.c_str());
